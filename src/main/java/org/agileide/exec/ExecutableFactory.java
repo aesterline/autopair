@@ -20,4 +20,9 @@ public class ExecutableFactory
 
         return new DefaultExecutable(executable.getAbsolutePath());
     }
+
+    public Executable create(String command)
+    {
+        return create(new File(command));
+    }
 }

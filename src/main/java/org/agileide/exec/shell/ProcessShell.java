@@ -28,8 +28,8 @@ public class ProcessShell implements Shell
         }
     }
 
-    public String execute(Executable status)
+    public String execute(Executable executable)
     {
-        return null;
+        return execute(executable.asArray());
     }
 }
