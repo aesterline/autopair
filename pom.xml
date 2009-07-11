@@ -17,5 +17,10 @@
             <artifactId>mockito-all</artifactId>
             <version>1.8.0-rc2</version>
         </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>1.4</version>
+        </dependency>
     </dependencies>
 </project>
