@@ -8,8 +8,8 @@ import org.testng.annotations.Test;
 @Test
 public class DelegatingExecutableTest
 {
-    private IExecutable delegatee;
-    private IExecutable executable;
+    private Executable delegatee;
+    private Executable executable;
 
     public void asArrayShouldBeDelegated()
     {
@@ -30,7 +30,7 @@ public class DelegatingExecutableTest
     @BeforeMethod
     protected void setUp() throws Exception
     {
-        delegatee = mock(IExecutable.class);
+        delegatee = mock(Executable.class);
         executable = new DelegatingExecutable(delegatee);
     }
 }

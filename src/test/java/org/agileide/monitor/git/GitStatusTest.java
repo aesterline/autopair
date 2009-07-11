@@ -1,6 +1,6 @@
 package org.agileide.monitor.git;
 
-import org.agileide.exec.IExecutable;
+import org.agileide.exec.Executable;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import org.testng.annotations.Test;
@@ -10,7 +10,7 @@ public class GitStatusTest
 {
     public void shouldBuildStatusCommandAtConstruction()
     {
-        IExecutable gitExe = mock(IExecutable.class);
+        Executable gitExe = mock(Executable.class);
 
         new GitStatus(gitExe);
 

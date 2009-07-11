@@ -1,15 +1,15 @@
 package org.agileide.exec;
 
-public class DelegatingExecutable implements IExecutable
+public class DelegatingExecutable implements Executable
 {
-    private IExecutable delegatee;
+    private Executable delegatee;
 
-    public DelegatingExecutable(IExecutable delegatee)
+    public DelegatingExecutable(Executable delegatee)
     {
         this.delegatee = delegatee;
     }
 
-    public IExecutable addArguments(String... arguments) {return delegatee.addArguments(arguments);}
+    public Executable addArguments(String... arguments) {return delegatee.addArguments(arguments);}
 
     public String[] asArray() {return delegatee.asArray();}
 }

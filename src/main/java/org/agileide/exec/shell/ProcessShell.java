@@ -2,7 +2,7 @@ package org.agileide.exec.shell;
 
 import java.io.IOException;
 
-import org.agileide.exec.IExecutable;
+import org.agileide.exec.Executable;
 import org.agileide.exec.Shell;
 import org.apache.commons.io.IOUtils;
 
@@ -28,7 +28,7 @@ public class ProcessShell implements Shell
         }
     }
 
-    public String execute(IExecutable status)
+    public String execute(Executable status)
     {
         return null;
     }

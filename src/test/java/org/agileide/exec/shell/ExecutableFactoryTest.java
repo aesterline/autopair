@@ -2,8 +2,8 @@ package org.agileide.exec.shell;
 
 import java.io.File;
 
+import org.agileide.exec.Executable;
 import org.agileide.exec.ExecutableFactory;
-import org.agileide.exec.IExecutable;
 import org.agileide.exec.InvalidedExecutableException;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -61,7 +61,7 @@ public class ExecutableFactoryTest
         when(executable.canExecute()).thenReturn(true);
         when(executable.getAbsolutePath()).thenReturn(expected[0]);
 
-        IExecutable exec = factory.create(executable);
+        Executable exec = factory.create(executable);
 
         assertEquals(exec.asArray(), expected);
     }
