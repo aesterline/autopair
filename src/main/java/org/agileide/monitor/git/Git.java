@@ -1,6 +1,6 @@
 package org.agileide.monitor.git;
 
-import org.agileide.Shell;
+import org.agileide.exec.Shell;
 
 public class Git
 {

@@ -1,4 +1,4 @@
-package org.agileide.shell;
+package org.agileide.exec.shell;
 
 import org.apache.commons.io.IOUtils;
 import static org.mockito.Mockito.mock;
@@ -20,7 +20,7 @@ public class ProcessShellTest
     public void commandShouldBePassedToTheProcessFactory()
     {
         when(process.getInputStream()).thenReturn(IOUtils.toInputStream("who cares"));
-        
+
         shell.execute(COMMAND);
 
         verify(factory).create(COMMAND.split(" "));

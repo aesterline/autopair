@@ -1,12 +1,12 @@
 package org.agileide.monitor.git;
 
-import org.agileide.Shell;
-import org.testng.annotations.Test;
-import org.testng.annotations.BeforeMethod;
-import static org.testng.Assert.assertEquals;
+import org.agileide.exec.Shell;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.testng.Assert.assertEquals;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 @Test
 public class GitTest

@@ -1,4 +1,4 @@
-package org.agileide.shell;
+package org.agileide.exec.shell;
 
 import java.io.IOException;
 

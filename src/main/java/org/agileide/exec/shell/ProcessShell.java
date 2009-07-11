@@ -1,8 +1,8 @@
-package org.agileide.shell;
+package org.agileide.exec.shell;
 
 import java.io.IOException;
 
-import org.agileide.Shell;
+import org.agileide.exec.Shell;
 import org.apache.commons.io.IOUtils;
 
 public class ProcessShell implements Shell

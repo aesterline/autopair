@@ -1,4 +1,4 @@
-package org.agileide.shell;
+package org.agileide.exec.shell;
 
 public interface ProcessFactory
 {

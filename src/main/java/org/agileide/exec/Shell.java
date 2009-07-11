@@ -1,4 +1,4 @@
-package org.agileide;
+package org.agileide.exec;
 
 public interface Shell
 {
