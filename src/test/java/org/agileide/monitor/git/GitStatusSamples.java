@@ -38,4 +38,21 @@ public class GitStatusSamples
                                                         "#\tmodified:   src/main/java/org/agileide/monitor/FileSystemChangeListener.java\n" +
                                                         "#\tmodified:   src/test/java/org/agileide/monitor/git/GitStatusSamples.java\n" +
                                                         "#";
+
+    public static final String DELETED_TRACKED_FILE = "# On branch master\n" +
+                                                      "# Changed but not updated:\n" +
+                                                      "#   (use \"git add/rm <file>...\" to update what will be committed)\n" +
+                                                      "#   (use \"git checkout -- <file>...\" to discard changes in working directory)\n" +
+                                                      "#\n" +
+                                                      "#\tdeleted:    pom.xml\n" +
+                                                      "#";
+
+    public static final String MULTIPLE_DELETED_TRACKED_FILES = "# On branch master\n" +
+                                                                "# Changed but not updated:\n" +
+                                                                "#   (use \"git add/rm <file>...\" to update what will be committed)\n" +
+                                                                "#   (use \"git checkout -- <file>...\" to discard changes in working directory)\n" +
+                                                                "#\n" +
+                                                                "#\tdeleted:    pom.xml\n" +
+                                                                "#\tdeleted:    src/test/java/org/agileide/monitor/git/GitStatusSamples.java\n" +
+                                                                "#";
 }

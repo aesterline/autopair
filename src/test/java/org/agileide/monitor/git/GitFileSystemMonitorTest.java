@@ -46,6 +46,21 @@ public class GitFileSystemMonitorTest
         verify(listener).newFile(new File("junk/me/you/cool.txt"));
     }
 
+    public void deletedFileShouldFireDeletedFileEvent()
+    {
+        checkForChanges(GitStatusSamples.DELETED_TRACKED_FILE);
+
+        verify(listener).deletedFile(new File("pom.xml"));
+    }
+
+    public void multipleDeletedFilesShouldFireDeletedFileEventForEachDeletedFile()
+    {
+        checkForChanges(GitStatusSamples.MULTIPLE_DELETED_TRACKED_FILES);
+
+        verify(listener).deletedFile(new File("pom.xml"));
+        verify(listener).deletedFile(new File("src/test/java/org/agileide/monitor/git/GitStatusSamples.java"));
+    }
+
     private void checkForChanges(String gitStatus)
     {
         when(git.status()).thenReturn(gitStatus);
