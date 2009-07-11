@@ -8,6 +8,7 @@ public class GitFileSystemMonitor
 {
     private Git git;
     private FileSystemChangeListener listener;
+    private static final String MODIFIED = "#\tmodified:";
 
     public GitFileSystemMonitor(Git git)
     {
@@ -26,8 +27,12 @@ public class GitFileSystemMonitor
 
         for(String change : changes)
         {
-            if(change.contains("Untracked files")) newFiles = true;
-            if(change.startsWith("#\t"))
+            if(change.startsWith(MODIFIED))
+            {
+               listener.changedFile(new File(change.substring(MODIFIED.length()).trim()));
+            }
+            else if(change.contains("Untracked files")) newFiles = true;
+            else if(change.startsWith("#\t"))
             {
                 if(newFiles)
                 {
