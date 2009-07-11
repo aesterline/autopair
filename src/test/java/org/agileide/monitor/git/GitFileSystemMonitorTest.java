@@ -105,6 +105,6 @@ public class GitFileSystemMonitorTest
         listener = mock(FileSystemChangeListener.class);
         monitor = new GitFileSystemMonitor(git);
 
-        monitor.addListener(listener);
+        monitor.setListener(listener);
     }
 }

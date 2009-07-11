@@ -1,7 +1,6 @@
 package org.agileide.monitor;
 
-public interface FileSystemMonitorSpi
+public interface FileSystemMonitorSpi extends FileSystemMonitor
 {
-    void setListener(FileSystemChangeListener listener);
     void checkForChanges();
 }

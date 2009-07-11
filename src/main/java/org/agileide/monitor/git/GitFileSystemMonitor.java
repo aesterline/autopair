@@ -3,8 +3,9 @@ package org.agileide.monitor.git;
 import java.io.File;
 
 import org.agileide.monitor.FileSystemChangeListener;
+import org.agileide.monitor.FileSystemMonitorSpi;
 
-public class GitFileSystemMonitor
+public class GitFileSystemMonitor implements FileSystemMonitorSpi
 {
     private Git git;
     private FileSystemChangeListener listener;
@@ -19,7 +20,7 @@ public class GitFileSystemMonitor
         this.git = git;
     }
 
-    public void addListener(FileSystemChangeListener listener)
+    public void setListener(FileSystemChangeListener listener)
     {
         this.listener = listener;
     }
