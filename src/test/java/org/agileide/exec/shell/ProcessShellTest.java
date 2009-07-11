@@ -15,7 +15,7 @@ public class ProcessShellTest
     private Process process;
     private ProcessShell shell;
 
-    private static final String COMMAND = "git status";
+    private static final String[] COMMAND = {"git", "status"};
 
     public void commandShouldBePassedToTheProcessFactory()
     {
@@ -23,7 +23,7 @@ public class ProcessShellTest
 
         shell.execute(COMMAND);
 
-        verify(factory).create(COMMAND.split(" "));
+        verify(factory).create(COMMAND);
     }
 
     public void outputFromTheProcessShouldBeFullyReadAndReturned()
@@ -42,7 +42,7 @@ public class ProcessShellTest
         factory = mock(ProcessFactory.class);
         process = mock(Process.class);
 
-        when(factory.create(COMMAND.split(" "))).thenReturn(process);
+        when(factory.create(COMMAND)).thenReturn(process);
 
         shell = new ProcessShell(factory);
     }

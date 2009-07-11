@@ -13,17 +13,18 @@ public class GitTest
 {
     private Shell shell;
     private Git git;
+    private GitStatus status;
 
     public void statusShouldExecuteGitStatus()
     {
         git.status();
-        verify(shell).execute(Git.STATUS_COMMAND);
+        verify(shell).execute(status);
     }
 
     public void statusShouldReturnResultsFromShell()
     {
         String expectedResult = "who cares";
-        when(shell.execute(Git.STATUS_COMMAND)).thenReturn(expectedResult);
+        when(shell.execute(status)).thenReturn(expectedResult);
 
         String results = git.status();
 
@@ -34,6 +35,7 @@ public class GitTest
     protected void setUp() throws Exception
     {
         shell = mock(Shell.class);
-        git = new Git(shell);
+        status = mock(GitStatus.class);
+        git = new Git(status, shell);
     }
 }

@@ -2,6 +2,7 @@ package org.agileide.exec.shell;
 
 import java.io.IOException;
 
+import org.agileide.exec.IExecutable;
 import org.agileide.exec.Shell;
 import org.apache.commons.io.IOUtils;
 
@@ -14,16 +15,21 @@ public class ProcessShell implements Shell
         this.factory = factory;
     }
 
-    public String execute(String command)
+    public String execute(String... command)
     {
         try
         {
-            Process process = factory.create(command.split(" "));
+            Process process = factory.create(command);
             return IOUtils.toString(process.getInputStream());
         }
         catch(IOException e)
         {
             throw new RuntimeException(e);
         }
+    }
+
+    public String execute(IExecutable status)
+    {
+        return null;
     }
 }

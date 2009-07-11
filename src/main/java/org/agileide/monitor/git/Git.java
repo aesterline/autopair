@@ -4,17 +4,17 @@ import org.agileide.exec.Shell;
 
 public class Git
 {
-    public static final String STATUS_COMMAND = "git status --untracked-files=all";
-
+    private GitStatus status;
     private Shell shell;
 
-    public Git(Shell shell)
+    public Git(GitStatus status, Shell shell)
     {
+        this.status = status;
         this.shell = shell;
     }
 
     public String status()
     {
-        return shell.execute(STATUS_COMMAND);
+        return shell.execute(status);
     }
 }
