@@ -61,6 +61,37 @@ public class GitFileSystemMonitorTest
         verify(listener).deletedFile(new File("src/test/java/org/agileide/monitor/git/GitStatusSamples.java"));
     }
 
+    public void trackedAndUntrackedFilesShouldFireCorrectEvents()
+    {
+        checkForChanges(GitStatusSamples.MIXED_TRACKED_AND_UNTRACKED);
+
+        verify(listener).deletedFile(new File("pom.xml"));
+        verify(listener).newFile(new File("junk/for/me/yes.txt"));
+    }
+
+    public void newFilesInIndexShouldFireNewFileEvent()
+    {
+        checkForChanges(GitStatusSamples.NEW_FILE_IN_INDEX);
+
+        verify(listener).newFile(new File("junk.txt"));
+    }
+
+    public void multipleFilesInIndexShouldFireCorrectEvents()
+    {
+        checkForChanges(GitStatusSamples.MULTIPLE_FILES_IN_INDEX);
+
+        verify(listener).newFile(new File("junk.txt"));
+        verify(listener).changedFile(new File("README"));
+    }
+
+    public void renamedFileInIndexShouldFireDeleteThenNewEvents()
+    {
+        checkForChanges(GitStatusSamples.RENAMED_FILE_IN_INDEX);
+
+        verify(listener).deletedFile(new File("pom.xml"));
+        verify(listener).newFile(new File("job.xml"));
+    }
+
     private void checkForChanges(String gitStatus)
     {
         when(git.status()).thenReturn(gitStatus);

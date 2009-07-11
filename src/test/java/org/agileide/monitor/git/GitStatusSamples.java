@@ -55,4 +55,38 @@ public class GitStatusSamples
                                                                 "#\tdeleted:    pom.xml\n" +
                                                                 "#\tdeleted:    src/test/java/org/agileide/monitor/git/GitStatusSamples.java\n" +
                                                                 "#";
+
+    public static final String MIXED_TRACKED_AND_UNTRACKED = "# On branch master\n" +
+                                                             "# Changed but not updated:\n" +
+                                                             "#   (use \"git add/rm <file>...\" to update what will be committed)\n" +
+                                                             "#   (use \"git checkout -- <file>...\" to discard changes in working directory)\n" +
+                                                             "#\n" +
+                                                             "#\tdeleted:    pom.xml\n" +
+                                                             "#\n" +
+                                                             "# Untracked files:\n" +
+                                                             "#   (use \"git add <file>...\" to include in what will be committed)\n" +
+                                                             "#\n" +
+                                                             "#\tjunk/for/me/yes.txt";
+
+    public static final String NEW_FILE_IN_INDEX = "# On branch master\n" +
+                                                   "# Changes to be committed:\n" +
+                                                   "#   (use \"git reset HEAD <file>...\" to unstage)\n" +
+                                                   "#\n" +
+                                                   "#\tnew file:   junk.txt\n" +
+                                                   "#";
+
+    public static final String MULTIPLE_FILES_IN_INDEX = "# On branch master\n" +
+                                                         "# Changes to be committed:\n" +
+                                                         "#   (use \"git reset HEAD <file>...\" to unstage)\n" +
+                                                         "#\n" +
+                                                         "#\tmodified:   README\n" +
+                                                         "#\tnew file:   junk.txt\n" +
+                                                         "#";
+
+    public static final String RENAMED_FILE_IN_INDEX = "# On branch master\n" +
+                                                       "# Changes to be committed:\n" +
+                                                       "#   (use \"git reset HEAD <file>...\" to unstage)\n" +
+                                                       "#\n" +
+                                                       "#\trenamed:    pom.xml -> job.xml\n" +
+                                                       "#";
 }
