@@ -1,0 +1,10 @@
+test-output
+target
+reports
+*iws
+*ipr
+*iml
+.classpath
+.project
+.metadata
+*testng-customsuite.xml
