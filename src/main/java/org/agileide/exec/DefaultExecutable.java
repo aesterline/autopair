@@ -20,7 +20,7 @@ public class DefaultExecutable implements Executable
 
     public Executable addArguments(String... arguments)
     {
-        List<String> newCommand = new ArrayList(command);
+        List<String> newCommand = new ArrayList<String>(command);
         newCommand.addAll(Arrays.asList(arguments));
 
         return new DefaultExecutable(newCommand);
