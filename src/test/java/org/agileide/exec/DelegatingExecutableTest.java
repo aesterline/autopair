@@ -11,13 +11,6 @@ public class DelegatingExecutableTest
     private Executable delegatee;
     private Executable executable;
 
-    public void asArrayShouldBeDelegated()
-    {
-        executable.asArray();
-
-        verify(delegatee).asArray();
-    }
-
     public void addArgumentsShouldBeDelegated()
     {
         String[] arguments = {"git", "status"};
@@ -25,6 +18,12 @@ public class DelegatingExecutableTest
         executable.addArguments(arguments);
 
         verify(delegatee).addArguments(arguments);
+    }
+
+    public void executeShouldBeDelegated()
+    {
+        executable.execute();
+        verify(delegatee).execute();
     }
 
     @BeforeMethod

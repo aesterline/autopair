@@ -4,5 +4,5 @@ public interface Executable
 {
     Executable addArguments(String... arguments);
 
-    String[] asArray();
+    String execute();
 }

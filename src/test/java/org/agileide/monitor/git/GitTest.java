@@ -1,6 +1,5 @@
 package org.agileide.monitor.git;
 
-import org.agileide.exec.Shell;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -11,20 +10,19 @@ import org.testng.annotations.Test;
 @Test
 public class GitTest
 {
-    private Shell shell;
     private Git git;
     private GitStatus status;
 
     public void statusShouldExecuteGitStatus()
     {
         git.status();
-        verify(shell).execute(status);
+        verify(status).execute();
     }
 
     public void statusShouldReturnResultsFromShell()
     {
         String expectedResult = "who cares";
-        when(shell.execute(status)).thenReturn(expectedResult);
+        when(status.execute()).thenReturn(expectedResult);
 
         String results = git.status();
 
@@ -34,8 +32,7 @@ public class GitTest
     @BeforeMethod
     protected void setUp() throws Exception
     {
-        shell = mock(Shell.class);
         status = mock(GitStatus.class);
-        git = new Git(status, shell);
+        git = new Git(status);
     }
 }

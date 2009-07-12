@@ -23,7 +23,7 @@ public class AgileIDE
     public static void main(String[] args)
     {
         Shell shell = new ProcessShell(new ProcessBuilderProcessFactory());
-        ExecutableFactory executableFactory = new ExecutableFactory();
+        ExecutableFactory executableFactory = new ExecutableFactory(shell);
         Executable git = executableFactory.create("/usr/local/git/bin/git");
         Executable javacExec = executableFactory.create("/System/Library/Frameworks/JavaVM.framework/Versions/1.6/Commands/javac");
         javacExec = javacExec.addArguments(
@@ -31,10 +31,10 @@ public class AgileIDE
                 "-d", "/Users/adam/Projects/agileide.git/target/classes",
                 "-sourcepath", "/Users/adam/Projects/agileide.git/src/main/java");
 
-        FileSystemMonitorSpi spi = new GitFileSystemMonitor(new Git(new GitStatus(git), shell));
+        FileSystemMonitorSpi spi = new GitFileSystemMonitor(new Git(new GitStatus(git)));
         Timer timer = new Timer();
         FileSystemMonitor fileSystemMonitor = new TimerFileSystemMonitor(spi, timer, 10);
 
-        fileSystemMonitor.setListener(new JavacFileSystemListener(new Javac(shell, javacExec)));
+        fileSystemMonitor.setListener(new JavacFileSystemListener(new Javac(javacExec)));
     }
 }

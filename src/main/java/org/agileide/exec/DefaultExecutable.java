@@ -7,15 +7,17 @@ import java.util.List;
 public class DefaultExecutable implements Executable
 {
     private List<String> command;
+    private Shell shell;
 
-    public DefaultExecutable(String... command)
+    public DefaultExecutable(Shell shell, List<String> command)
     {
-        this.command = Arrays.asList(command);
+        this.shell = shell;
+        this.command = command;
     }
 
-    public DefaultExecutable(List<String> command)
+    public DefaultExecutable(Shell shell, String... command)
     {
-        this.command = command;
+        this(shell, Arrays.asList(command));
     }
 
     public Executable addArguments(String... arguments)
@@ -23,11 +25,12 @@ public class DefaultExecutable implements Executable
         List<String> newCommand = new ArrayList<String>(command);
         newCommand.addAll(Arrays.asList(arguments));
 
-        return new DefaultExecutable(newCommand);
+        return new DefaultExecutable(shell, newCommand);
     }
 
-    public String[] asArray()
+    public String execute()
     {
-        return command.toArray(new String[command.size()]);
+        String[] executableCommand = command.toArray(new String[command.size()]);
+        return shell.execute(executableCommand);
     }
 }

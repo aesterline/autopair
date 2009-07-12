@@ -2,7 +2,6 @@ package org.agileide.exec.shell;
 
 import java.io.IOException;
 
-import org.agileide.exec.Executable;
 import org.agileide.exec.Shell;
 import org.apache.commons.io.IOUtils;
 
@@ -26,10 +25,5 @@ public class ProcessShell implements Shell
         {
             throw new RuntimeException(e);
         }
-    }
-
-    public String execute(Executable executable)
-    {
-        return execute(executable.asArray());
     }
 }

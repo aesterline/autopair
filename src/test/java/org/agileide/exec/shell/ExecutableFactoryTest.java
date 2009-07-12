@@ -5,7 +5,9 @@ import java.io.File;
 import org.agileide.exec.Executable;
 import org.agileide.exec.ExecutableFactory;
 import org.agileide.exec.InvalidedExecutableException;
+import org.agileide.exec.Shell;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
@@ -16,6 +18,7 @@ import org.testng.annotations.Test;
 public class ExecutableFactoryTest
 {
     private ExecutableFactory factory;
+    private Shell shell;
 
     public void unknownExecutableShouldThrowInvalidExecutableException()
     {
@@ -52,7 +55,7 @@ public class ExecutableFactoryTest
         }
     }
 
-    public void executableShouldCreateExecutable()
+    public void executableShouldBeExecutable()
     {
         String[] expected = {"who cares"};
 
@@ -62,13 +65,15 @@ public class ExecutableFactoryTest
         when(executable.getAbsolutePath()).thenReturn(expected[0]);
 
         Executable exec = factory.create(executable);
+        exec.execute();
 
-        assertEquals(exec.asArray(), expected);
+        verify(shell).execute(expected);
     }
 
     @BeforeMethod
     protected void setUp() throws Exception
     {
-        factory = new ExecutableFactory();
+        shell = mock(Shell.class);
+        factory = new ExecutableFactory(shell);
     }
 }

@@ -11,5 +11,5 @@ public class DelegatingExecutable implements Executable
 
     public Executable addArguments(String... arguments) {return delegatee.addArguments(arguments);}
 
-    public String[] asArray() {return delegatee.asArray();}
+    public String execute() {return delegatee.execute();}
 }

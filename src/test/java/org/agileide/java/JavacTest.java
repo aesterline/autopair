@@ -3,7 +3,6 @@ package org.agileide.java;
 import java.io.File;
 
 import org.agileide.exec.Executable;
-import org.agileide.exec.Shell;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -23,12 +22,10 @@ public class JavacTest
         Executable javacWithFile = mock(Executable.class);
         when(javacExec.addArguments(filename)).thenReturn(javacWithFile);
 
-        Shell shell = mock(Shell.class);
-
-        Javac javac = new Javac(shell, javacExec);
+        Javac javac = new Javac(javacExec);
 
         javac.compile(javaFile);
 
-        verify(shell).execute(javacWithFile);
+        verify(javacWithFile).execute();
     }
 }
