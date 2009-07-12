@@ -6,13 +6,13 @@ import org.agileide.monitor.FileSystemChangeListener;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import org.testng.annotations.Test;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 @Test
 public class GitFileSystemMonitorTest
 {
-    private Git git;
+    private GitStatus status;
     private FileSystemChangeListener listener;
     private GitFileSystemMonitor monitor;
 
@@ -94,16 +94,16 @@ public class GitFileSystemMonitorTest
 
     private void checkForChanges(String gitStatus)
     {
-        when(git.status()).thenReturn(gitStatus);
+        when(status.status()).thenReturn(gitStatus);
         monitor.checkForChanges();
     }
 
     @BeforeMethod
     protected void setUp() throws Exception
     {
-        git = mock(Git.class);
+        status = mock(GitStatus.class);
         listener = mock(FileSystemChangeListener.class);
-        monitor = new GitFileSystemMonitor(git);
+        monitor = new GitFileSystemMonitor(status);
 
         monitor.setListener(listener);
     }

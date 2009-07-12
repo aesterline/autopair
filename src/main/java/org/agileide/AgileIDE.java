@@ -12,7 +12,6 @@ import org.agileide.java.JavacFileSystemListener;
 import org.agileide.monitor.FileSystemMonitor;
 import org.agileide.monitor.FileSystemMonitorSpi;
 import org.agileide.monitor.TimerFileSystemMonitor;
-import org.agileide.monitor.git.Git;
 import org.agileide.monitor.git.GitFileSystemMonitor;
 import org.agileide.monitor.git.GitStatus;
 
@@ -31,7 +30,7 @@ public class AgileIDE
                 "-d", "/Users/adam/Projects/agileide.git/target/classes",
                 "-sourcepath", "/Users/adam/Projects/agileide.git/src/main/java");
 
-        FileSystemMonitorSpi spi = new GitFileSystemMonitor(new Git(new GitStatus(git)));
+        FileSystemMonitorSpi spi = new GitFileSystemMonitor(new GitStatus(git));
         Timer timer = new Timer();
         FileSystemMonitor fileSystemMonitor = new TimerFileSystemMonitor(spi, timer, 10);
 

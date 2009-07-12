@@ -1,14 +1,20 @@
 package org.agileide.monitor.git;
 
-import org.agileide.exec.DelegatingExecutable;
 import org.agileide.exec.Executable;
 
-public class GitStatus extends DelegatingExecutable
+public class GitStatus
 {
     public static final String[] ARGUMENTS = {"status", "--untracked-files=all"};
 
+    private Executable status;
+
     public GitStatus(Executable gitExe)
     {
-        super(gitExe.addArguments(ARGUMENTS));
+        status = gitExe.addArguments(ARGUMENTS);
+    }
+
+    public String status()
+    {
+        return status.execute();
     }
 }

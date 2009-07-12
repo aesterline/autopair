@@ -7,7 +7,7 @@ import org.agileide.monitor.FileSystemMonitorSpi;
 
 public class GitFileSystemMonitor implements FileSystemMonitorSpi
 {
-    private Git git;
+    private GitStatus gitStatus;
     private FileSystemChangeListener listener;
 
     private static final String MODIFIED = "#\tmodified:";
@@ -15,9 +15,9 @@ public class GitFileSystemMonitor implements FileSystemMonitorSpi
     private static final String NEW = "#\tnew file:";
     private static final String RENAMED = "#\trenamed:";
 
-    public GitFileSystemMonitor(Git git)
+    public GitFileSystemMonitor(GitStatus gitStatus)
     {
-        this.git = git;
+        this.gitStatus = gitStatus;
     }
 
     public void setListener(FileSystemChangeListener listener)
@@ -27,7 +27,7 @@ public class GitFileSystemMonitor implements FileSystemMonitorSpi
 
     public void checkForChanges()
     {
-        String[] changes = git.status().split("\n");
+        String[] changes = gitStatus.status().split("\n");
         boolean newFiles = false;
 
         for(String change : changes)
@@ -55,7 +55,10 @@ public class GitFileSystemMonitor implements FileSystemMonitorSpi
                 listener.deletedFile(new File(renameParts[0].trim()));
                 listener.newFile(new File(renameParts[1].trim()));
             }
-            else if(change.contains("Untracked files")) newFiles = true;
+            else if(change.contains("Untracked files"))
+            {
+                newFiles = true;
+            }
             else if(change.startsWith("#\t"))
             {
                 if(newFiles)
