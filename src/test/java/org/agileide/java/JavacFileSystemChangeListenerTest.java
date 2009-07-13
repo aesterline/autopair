@@ -12,15 +12,24 @@ import org.testng.annotations.Test;
 @Test
 public class JavacFileSystemChangeListenerTest
 {
-    private Javac javac;
+    private Javac mainCompiler;
+    private Javac testCompiler;
     private FileSystemChangeListener listener;
 
-    public void addedFileWithJavaExtentionShouldBeCompiled()
+    public void addedFileWithJavaExtentionAndMainInPathShouldBeCompiledByMainCompiler()
     {
-        File addedFile = new File("MyFile.java");
+        File addedFile = new File("src/main/java/org/agileide/MyFile.java");
         listener.newFile(addedFile);
 
-        verify(javac).compile(addedFile);
+        verify(mainCompiler).compile(addedFile);
+    }
+
+    public void addedFileWithJavaExtentionAndTestInPathShouldBeCompiledByTestCompiler()
+    {
+        File addedFile = new File("src/test/java/org/agileide/MyFile.java");
+        listener.newFile(addedFile);
+
+        verify(testCompiler).compile(addedFile);
     }
 
     public void addedFileWithNonJavaExtentionShouldNotBeCompiled()
@@ -28,15 +37,24 @@ public class JavacFileSystemChangeListenerTest
         File addedFile = new File("pom.xml");
         listener.newFile(addedFile);
 
-        verify(javac, never()).compile(addedFile);
+        verify(mainCompiler, never()).compile(addedFile);
+        verify(testCompiler, never()).compile(addedFile);
     }
 
-    public void changedFileWithJavaExtentionShouldBeCompiled()
+    public void changedFileWithJavaExtentionAndMainInPathShouldBeCompiledByMainCompiler()
     {
-        File changedFile = new File("MyFile.java");
+        File changedFile = new File("src/main/java/org/agileide/MyFile.java");
         listener.changedFile(changedFile);
 
-        verify(javac).compile(changedFile);
+        verify(mainCompiler).compile(changedFile);
+    }
+
+    public void changedFileWithJavaExtentionAndTestInPathShouldBeCompiledByTestCompiler()
+    {
+        File changedFile = new File("src/test/java/org/agileide/MyFile.java");
+        listener.changedFile(changedFile);
+
+        verify(testCompiler).compile(changedFile);
     }
 
     public void changedFileWithoutJavaExtentionShouldNotBeCompiled()
@@ -44,7 +62,7 @@ public class JavacFileSystemChangeListenerTest
         File changedFile = new File("pom.xml");
         listener.changedFile(changedFile);
 
-        verify(javac, never()).compile(changedFile);
+        verify(mainCompiler, never()).compile(changedFile);
     }
 
     public void deletedFilesShouldNeverBeCompiled()
@@ -52,13 +70,14 @@ public class JavacFileSystemChangeListenerTest
         File deletedFile = new File("MyFile.java");
         listener.deletedFile(deletedFile);
 
-        verify(javac, never()).compile(deletedFile);
+        verify(mainCompiler, never()).compile(deletedFile);
     }
 
     @BeforeMethod
     protected void setUp() throws Exception
     {
-        javac = mock(Javac.class);
-        listener = new JavacFileSystemListener(javac);
+        mainCompiler = mock(Javac.class);
+        testCompiler = mock(Javac.class);
+        listener = new JavacFileSystemListener(mainCompiler, testCompiler);
     }
 }

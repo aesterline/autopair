@@ -24,16 +24,21 @@ public class AgileIDE
         Shell shell = new ProcessShell(new ProcessBuilderProcessFactory());
         ExecutableFactory executableFactory = new ExecutableFactory(shell);
         Executable git = executableFactory.create("/usr/local/git/bin/git");
-        Executable javacExec = executableFactory.create("/System/Library/Frameworks/JavaVM.framework/Versions/1.6/Commands/javac");
-        javacExec = javacExec.addArguments(
+        Executable javac = executableFactory.create("/System/Library/Frameworks/JavaVM.framework/Versions/1.6/Commands/javac");
+        Executable mainCompiler = javac.addArguments(
                 "-classpath", CLASSPATH,
                 "-d", "/Users/adam/Projects/agileide.git/target/classes",
                 "-sourcepath", "/Users/adam/Projects/agileide.git/src/main/java");
+
+        Executable testCompiler = javac.addArguments(
+                "-classpath", CLASSPATH + ":/Users/adam/Projects/agileide.git/target/classes",
+                "-d", "/Users/adam/Projects/agileide.git/target/test-classes",
+                "-sourcepath", "/Users/adam/Projects/agileide.git/src/test/java");
 
         FileSystemMonitorSpi spi = new GitFileSystemMonitor(new GitStatus(git));
         Timer timer = new Timer();
         FileSystemMonitor fileSystemMonitor = new TimerFileSystemMonitor(spi, timer, 10);
 
-        fileSystemMonitor.setListener(new JavacFileSystemListener(new Javac(javacExec)));
+        fileSystemMonitor.setListener(new JavacFileSystemListener(new Javac(mainCompiler), new Javac(testCompiler)));
     }
 }

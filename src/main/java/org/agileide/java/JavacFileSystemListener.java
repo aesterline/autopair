@@ -6,11 +6,13 @@ import org.agileide.monitor.FileSystemChangeListener;
 
 public class JavacFileSystemListener implements FileSystemChangeListener
 {
-    private Javac javac;
+    private Javac mainCompiler;
+    private Javac testCompiler;
 
-    public JavacFileSystemListener(Javac javac)
+    public JavacFileSystemListener(Javac mainCompiler, Javac testCompiler)
     {
-        this.javac = javac;
+        this.mainCompiler = mainCompiler;
+        this.testCompiler = testCompiler;
     }
 
     public void newFile(File file)
@@ -25,9 +27,18 @@ public class JavacFileSystemListener implements FileSystemChangeListener
 
     private void compile(File file)
     {
-        if(file.getName().endsWith(".java"))
+        String filename = file.getAbsolutePath();
+
+        if(filename.endsWith(".java"))
         {
-            javac.compile(file);
+            if(filename.contains("src/main"))
+            {
+                mainCompiler.compile(file);
+            }
+            else if(filename.contains("src/test"))
+            {
+                testCompiler.compile(file);
+            }
         }
     }
 
