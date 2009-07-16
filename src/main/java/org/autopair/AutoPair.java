@@ -12,6 +12,12 @@ import org.autopair.exec.shell.ProcessBuilderProcessFactory;
 import org.autopair.exec.shell.ProcessShell;
 import org.autopair.java.Javac;
 import org.autopair.java.JavacFileSystemListener;
+import org.autopair.java.testng.FileToClassName;
+import org.autopair.java.testng.RemoteTestRunnerClient;
+import org.autopair.java.testng.SuiteXml;
+import org.autopair.java.testng.TestNGFileSystemChangeListener;
+import org.autopair.java.testng.TestNg;
+import org.autopair.monitor.FileSystemChangeListeners;
 import org.autopair.monitor.FileSystemMonitor;
 import org.autopair.monitor.FileSystemMonitorSpi;
 import org.autopair.monitor.TimerFileSystemMonitor;
@@ -32,6 +38,8 @@ public class AutoPair
         ExecutableFactory executableFactory = new ExecutableFactory(shell);
         Executable git = executableFactory.create("/usr/local/git/bin/git");
         Executable javac = executableFactory.create("/System/Library/Frameworks/JavaVM.framework/Versions/1.6/Commands/javac");
+        Executable java = executableFactory.create("/System/Library/Frameworks/JavaVM.framework/Versions/1.6/Commands/java");
+
         Executable mainCompiler = javac.addArguments(
                 "-classpath", CLASSPATH,
                 "-d", "/Users/adam/Projects/agileide.git/target/classes",
@@ -42,10 +50,21 @@ public class AutoPair
                 "-d", "/Users/adam/Projects/agileide.git/target/test-classes",
                 "-sourcepath", "/Users/adam/Projects/agileide.git/src/test/java");
 
+        Executable testngExe = java.addArguments("-cp", CLASSPATH + ":/Users/adam/Projects/agileide.git/target/classes:/Users/adam/Projects/agileide.git/target/test-classes",
+                                                 "org.testng.remote.RemoteTestNG",
+                                                 "-port", "5000");
+
+        new RemoteTestRunnerClient().start();
+
         FileSystemMonitorSpi spi = new GitFileSystemMonitor(new GitStatus(git));
         Timer timer = new Timer();
         FileSystemMonitor fileSystemMonitor = new TimerFileSystemMonitor(spi, timer, 10);
 
-        fileSystemMonitor.setListener(new JavacFileSystemListener(new Javac(mainCompiler), new Javac(testCompiler)));
+        TestNg testng = new TestNg(testngExe, new SuiteXml());
+        FileToClassName ftc = new FileToClassName("/Users/adam/Projects/agileide.git/src/test/java");
+
+        JavacFileSystemListener javacListener = new JavacFileSystemListener(new Javac(mainCompiler), new Javac(testCompiler));
+        TestNGFileSystemChangeListener testNgListener = new TestNGFileSystemChangeListener(testng, ftc);
+        fileSystemMonitor.setListener(new FileSystemChangeListeners(javacListener, testNgListener));
     }
 }
