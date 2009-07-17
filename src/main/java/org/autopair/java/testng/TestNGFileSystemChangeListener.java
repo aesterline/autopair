@@ -1,7 +1,9 @@
 package org.autopair.java.testng;
 
 import java.io.File;
+import java.util.List;
 
+import org.autopair.monitor.FileSystemChange;
 import org.autopair.monitor.FileSystemChangeListener;
 
 public class TestNGFileSystemChangeListener implements FileSystemChangeListener
@@ -27,6 +29,11 @@ public class TestNGFileSystemChangeListener implements FileSystemChangeListener
 
     public void deletedFile(File file)
     {
+    }
+
+    public void changes(List<FileSystemChange> changes)
+    {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     private void test(File file)

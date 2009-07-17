@@ -1,7 +1,9 @@
 package org.autopair.java;
 
 import java.io.File;
+import java.util.List;
 
+import org.autopair.monitor.FileSystemChange;
 import org.autopair.monitor.FileSystemChangeListener;
 
 public class JavacFileSystemListener implements FileSystemChangeListener
@@ -44,5 +46,10 @@ public class JavacFileSystemListener implements FileSystemChangeListener
 
     public void deletedFile(File file)
     {
+    }
+
+    public void changes(List<FileSystemChange> changes)
+    {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 }

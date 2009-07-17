@@ -1,7 +1,9 @@
 package org.autopair.monitor.git;
 
 import java.io.File;
+import java.util.List;
 
+import org.autopair.monitor.FileSystemChange;
 import org.autopair.monitor.FileSystemChangeListener;
 import org.autopair.monitor.FileSystemMonitorSpi;
 
@@ -25,7 +27,7 @@ public class GitFileSystemMonitor implements FileSystemMonitorSpi
         this.listener = listener;
     }
 
-    public void checkForChanges()
+    public List<FileSystemChange> checkForChanges()
     {
         String[] changes = gitStatus.status().split("\n");
         boolean newFiles = false;
@@ -67,5 +69,7 @@ public class GitFileSystemMonitor implements FileSystemMonitorSpi
                 }
             }
         }
+
+        return null;
     }
 }

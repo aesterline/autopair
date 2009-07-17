@@ -1,6 +1,8 @@
 package org.autopair.monitor;
 
+import java.util.List;
+
 public interface FileSystemMonitorSpi extends FileSystemMonitor
 {
-    void checkForChanges();
+    List<FileSystemChange> checkForChanges();
 }

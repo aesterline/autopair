@@ -1,6 +1,7 @@
 package org.autopair.monitor;
 
 import java.io.File;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 
@@ -26,5 +27,10 @@ public class LoggingFileSystemChangeListener implements FileSystemChangeListener
     public void deletedFile(File file)
     {
         log.info(String.format("\tdeleted: %s", file.getName()));
+    }
+
+    public void changes(List<FileSystemChange> changes)
+    {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 }

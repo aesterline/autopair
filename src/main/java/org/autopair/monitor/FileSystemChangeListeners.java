@@ -3,6 +3,7 @@ package org.autopair.monitor;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import org.apache.commons.collections.Closure;
 import static org.apache.commons.collections.ClosureUtils.invokerClosure;
@@ -32,6 +33,11 @@ public class FileSystemChangeListeners implements FileSystemChangeListener
     public void deletedFile(File file)
     {
         forAllInvoke("deletedFile", file);
+    }
+
+    public void changes(List<FileSystemChange> changes)
+    {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     private void forAllInvoke(String methodName, File file)
