@@ -19,8 +19,11 @@ import org.autopair.java.testng.TestNGFileSystemChangeListener;
 import org.autopair.java.testng.TestNg;
 import org.autopair.monitor.FileSystemChangeListeners;
 import org.autopair.monitor.FileSystemMonitor;
-import org.autopair.monitor.FileSystemMonitorSpi;
 import org.autopair.monitor.TimerFileSystemMonitor;
+import org.autopair.monitor.vcs.Clock;
+import org.autopair.monitor.vcs.RecentChangesFileSystemChangeFilter;
+import org.autopair.monitor.vcs.Vcs;
+import org.autopair.monitor.vcs.VcsFileSystemMonitorSpi;
 import org.autopair.monitor.vcs.git.GitStatus;
 import org.autopair.monitor.vcs.git.GitVcs;
 
@@ -56,7 +59,9 @@ public class AutoPair
 
         new RemoteTestRunnerClient().start();
 
-        FileSystemMonitorSpi spi = new GitVcs(new GitStatus(git));
+        Vcs vcs = new GitVcs(new GitStatus(git));
+        VcsFileSystemMonitorSpi spi = new VcsFileSystemMonitorSpi(vcs, new RecentChangesFileSystemChangeFilter(new Clock()));
+
         Timer timer = new Timer();
         FileSystemMonitor fileSystemMonitor = new TimerFileSystemMonitor(spi, timer, 10);
 

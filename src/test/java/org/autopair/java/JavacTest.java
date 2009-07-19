@@ -6,6 +6,7 @@ import org.autopair.exec.Executable;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.testng.Assert.fail;
 import org.testng.annotations.Test;
 
 @Test
@@ -27,5 +28,7 @@ public class JavacTest
         javac.compile(javaFile);
 
         verify(javacWithFile).execute();
+
+        fail("This test fails");
     }
 }

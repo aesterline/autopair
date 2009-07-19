@@ -7,7 +7,6 @@ import org.autopair.monitor.AddedFile;
 import org.autopair.monitor.ChangedFile;
 import org.autopair.monitor.DeletedFile;
 import org.autopair.monitor.FileSystemChange;
-import org.autopair.monitor.FileSystemChangeListener;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
@@ -141,9 +140,6 @@ public class GitVcsTest
     protected void setUp() throws Exception
     {
         status = mock(GitStatus.class);
-        FileSystemChangeListener listener = mock(FileSystemChangeListener.class);
         vcs = new GitVcs(status);
-
-        vcs.setListener(listener);
     }
 }
