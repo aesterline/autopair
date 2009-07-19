@@ -6,10 +6,10 @@ import java.util.List;
 
 import org.autopair.monitor.AddedFile;
 import org.autopair.monitor.ChangedFile;
+import org.autopair.monitor.DeletedFile;
 import org.autopair.monitor.FileSystemChange;
 import org.autopair.monitor.FileSystemChangeListener;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
 import org.testng.annotations.BeforeMethod;
@@ -25,77 +25,107 @@ public class GitVcsTest
     public void unTrackedFilesResultInAnAddedFile()
     {
         List<FileSystemChange> changes = status(GitStatusSamples.UNTRACKED_FILE);
+        FileSystemChange[] expectedChanges = {
+                new AddedFile(new File("pom.xml"))
+        };
 
-        assertChangesContainsAll(changes, new AddedFile(new File("pom.xml")));
+        assertChangesContainsAll(changes, expectedChanges);
     }
 
     public void trackedFilesShouldResultInAChangedFile()
     {
         List<FileSystemChange> changes = status(GitStatusSamples.TRACKED_FILE);
+        FileSystemChange[] expectedChanges = {
+                new ChangedFile(new File("src/test/java/org/agileide/monitor/git/GitVcsTest.java"))
+        };
 
-        assertChangesContainsAll(changes, new ChangedFile(new File("src/test/java/org/agileide/monitor/git/GitVcsTest.java")));
+        assertChangesContainsAll(changes, expectedChanges);
     }
 
-    public void multipleTrackedFileShouldFireChangedFileEventForEachChange()
+    public void multipleTrackedFileShouldResultInAChangedFileForEachChange()
     {
-        status(GitStatusSamples.MULTIPLE_TRACKED_FILES);
+        List<FileSystemChange> changes = status(GitStatusSamples.MULTIPLE_TRACKED_FILES);
+        FileSystemChange[] expectedChanges = {
+                new ChangedFile(new File("src/main/java/org/agileide/monitor/FileSystemChangeListener.java")),
+                new ChangedFile(new File("src/test/java/org/agileide/monitor/git/GitStatusSamples.java"))
+        };
 
-        verify(listener).changedFile(new File("src/main/java/org/agileide/monitor/FileSystemChangeListener.java"));
-        verify(listener).changedFile(new File("src/test/java/org/agileide/monitor/git/GitStatusSamples.java"));
+        assertChangesContainsAll(changes, expectedChanges);
     }
 
-    public void multipleUnTrackedFilesShouldFireNewFileEventForEachNewFile()
+    public void multipleUnTrackedFilesShouldResultInAnAddedFileForEachNewFile()
     {
-        status(GitStatusSamples.MULTIPLE_UNTRACKED_FILES);
+        List<FileSystemChange> changes = status(GitStatusSamples.MULTIPLE_UNTRACKED_FILES);
+        FileSystemChange[] expectedChanges = {
+                new AddedFile(new File("pom.xml")),
+                new AddedFile(new File("junk/me/you/cool.txt"))
+        };
 
-        verify(listener).newFile(new File("pom.xml"));
-        verify(listener).newFile(new File("junk/me/you/cool.txt"));
+        assertChangesContainsAll(changes, expectedChanges);
     }
 
-    public void deletedFileShouldFireDeletedFileEvent()
+    public void deletedFileShouldResultInADeletedFile()
     {
-        status(GitStatusSamples.DELETED_TRACKED_FILE);
+        List<FileSystemChange> changes = status(GitStatusSamples.DELETED_TRACKED_FILE);
+        FileSystemChange[] expectedChanges = {
+                new DeletedFile(new File("pom.xml"))
+        };
 
-        verify(listener).deletedFile(new File("pom.xml"));
+        assertChangesContainsAll(changes, expectedChanges);
     }
 
-    public void multipleDeletedFilesShouldFireDeletedFileEventForEachDeletedFile()
+    public void multipleDeletedFilesShouldResultInADeletedFileForEachDeletedFile()
     {
-        status(GitStatusSamples.MULTIPLE_DELETED_TRACKED_FILES);
+        List<FileSystemChange> changes = status(GitStatusSamples.MULTIPLE_DELETED_TRACKED_FILES);
+        FileSystemChange[] expectedChanges = {
+                new DeletedFile(new File("pom.xml")),
+                new DeletedFile(new File("src/test/java/org/agileide/monitor/git/GitStatusSamples.java"))
+        };
 
-        verify(listener).deletedFile(new File("pom.xml"));
-        verify(listener).deletedFile(new File("src/test/java/org/agileide/monitor/git/GitStatusSamples.java"));
+        assertChangesContainsAll(changes, expectedChanges);
     }
 
-    public void trackedAndUntrackedFilesShouldFireCorrectEvents()
+    public void trackedAndUntrackedFilesShouldTriggerCorrectFileSystemChanges()
     {
-        status(GitStatusSamples.MIXED_TRACKED_AND_UNTRACKED);
+        List<FileSystemChange> changes = status(GitStatusSamples.MIXED_TRACKED_AND_UNTRACKED);
+        FileSystemChange[] expectedChanges = {
+                new DeletedFile(new File("pom.xml")),
+                new AddedFile(new File("junk/for/me/yes.txt"))
+        };
 
-        verify(listener).deletedFile(new File("pom.xml"));
-        verify(listener).newFile(new File("junk/for/me/yes.txt"));
+        assertChangesContainsAll(changes, expectedChanges);
     }
 
-    public void newFilesInIndexShouldFireNewFileEvent()
+    public void newFilesInIndexShouldResultInAnAddedFile()
     {
-        status(GitStatusSamples.NEW_FILE_IN_INDEX);
+        List<FileSystemChange> changes = status(GitStatusSamples.NEW_FILE_IN_INDEX);
+        FileSystemChange[] expectedChanges = {
+                new AddedFile(new File("junk.txt"))
+        };
 
-        verify(listener).newFile(new File("junk.txt"));
+        assertChangesContainsAll(changes, expectedChanges);
     }
 
-    public void multipleFilesInIndexShouldFireCorrectEvents()
+    public void multipleFilesInIndexShouldResultInCorrectFileSystemChanges()
     {
-        status(GitStatusSamples.MULTIPLE_FILES_IN_INDEX);
+        List<FileSystemChange> changes = status(GitStatusSamples.MULTIPLE_FILES_IN_INDEX);
+        FileSystemChange[] expectedChanges = {
+                new ChangedFile(new File("README")),
+                new AddedFile(new File("junk.txt"))
+        };
 
-        verify(listener).newFile(new File("junk.txt"));
-        verify(listener).changedFile(new File("README"));
+        assertChangesContainsAll(changes, expectedChanges);
     }
 
     public void renamedFileInIndexShouldFireDeleteThenNewEvents()
     {
-        status(GitStatusSamples.RENAMED_FILE_IN_INDEX);
+        List<FileSystemChange> changes = status(GitStatusSamples.RENAMED_FILE_IN_INDEX);
+        FileSystemChange[] expectedChanges = {
+                new DeletedFile(new File("pom.xml")),
+                new AddedFile(new File("job.xml"))
+        };
 
-        verify(listener).deletedFile(new File("pom.xml"));
-        verify(listener).newFile(new File("job.xml"));
+        assertChangesContainsAll(changes, expectedChanges);
     }
 
     private List<FileSystemChange> status(String gitStatus)

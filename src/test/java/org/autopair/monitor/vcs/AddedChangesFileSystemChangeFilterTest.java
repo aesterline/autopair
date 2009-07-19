@@ -1,5 +1,6 @@
 package org.autopair.monitor.vcs;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -29,7 +30,7 @@ public class AddedChangesFileSystemChangeFilterTest
 
     public void secondTimeSeeingAnAddedFileShouldBeConvertedToAChangedFile()
     {
-        AddedFile added = mock(AddedFile.class);
+        AddedFile added = new AddedFile(new File("junk.txt"));
         List<FileSystemChange> changes = Collections.singletonList((FileSystemChange) added);
 
         filter.selectMatching(changes);

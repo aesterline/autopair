@@ -2,23 +2,18 @@ package org.autopair.monitor;
 
 import java.io.File;
 
-public class AddedFile implements FileSystemChange
+public class DeletedFile implements FileSystemChange
 {
-    private final File file;
+    private File file;
 
-    public AddedFile(File file)
+    public DeletedFile(File file)
     {
         this.file = file;
     }
 
     public long lastUpdateTime()
     {
-        return file.lastModified();
-    }
-
-    public File getFile()
-    {
-        return file;
+        return 0;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
@@ -27,9 +22,9 @@ public class AddedFile implements FileSystemChange
         if(this == o) return true;
         if(o == null || getClass() != o.getClass()) return false;
 
-        AddedFile addedFile = (AddedFile) o;
+        DeletedFile that = (DeletedFile) o;
 
-        if(!file.equals(addedFile.file)) return false;
+        if(file != null ? !file.equals(that.file) : that.file != null) return false;
 
         return true;
     }
@@ -37,7 +32,7 @@ public class AddedFile implements FileSystemChange
     @Override
     public int hashCode()
     {
-        return file.hashCode();
+        return file != null ? file.hashCode() : 0;
     }
 
     @Override

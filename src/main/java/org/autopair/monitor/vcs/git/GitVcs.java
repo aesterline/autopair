@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.autopair.monitor.AddedFile;
 import org.autopair.monitor.ChangedFile;
+import org.autopair.monitor.DeletedFile;
 import org.autopair.monitor.FileSystemChange;
 import org.autopair.monitor.FileSystemChangeListener;
 import org.autopair.monitor.FileSystemMonitorSpi;
@@ -51,19 +52,26 @@ public class GitVcs implements FileSystemMonitorSpi, Vcs
             {
                 String deletedFile = change.substring(DELETED.length()).trim();
                 listener.deletedFile(new File(deletedFile));
+                systemChanges.add(new DeletedFile(new File(deletedFile)));
             }
             else if(change.startsWith(NEW))
             {
                 String newFile = change.substring(NEW.length()).trim();
                 listener.newFile(new File(newFile));
+                systemChanges.add(new AddedFile(new File(newFile)));
             }
             else if(change.startsWith(RENAMED))
             {
                 String renameDefinition = change.substring(RENAMED.length()).trim();
                 String[] renameParts = renameDefinition.split("->");
 
-                listener.deletedFile(new File(renameParts[0].trim()));
-                listener.newFile(new File(renameParts[1].trim()));
+                File deletedFile = new File(renameParts[0].trim());
+                File addedFile = new File(renameParts[1].trim());
+
+                listener.deletedFile(deletedFile);
+                listener.newFile(addedFile);
+                systemChanges.add(new DeletedFile(deletedFile));
+                systemChanges.add(new AddedFile(addedFile));
             }
             else if(change.contains("Untracked files"))
             {

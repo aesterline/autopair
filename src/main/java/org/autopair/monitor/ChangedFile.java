@@ -4,18 +4,21 @@ import java.io.File;
 
 public class ChangedFile implements FileSystemChange
 {
-    private File changedFile;
+    private File file;
 
-    public ChangedFile(AddedFile added) {}
-
-    public ChangedFile(File changedFile)
+    public ChangedFile(AddedFile added)
     {
-        this.changedFile = changedFile;
+        this(added.getFile());
+    }
+
+    public ChangedFile(File file)
+    {
+        this.file = file;
     }
 
     public long lastUpdateTime()
     {
-        return changedFile.lastModified();
+        return file.lastModified();
     }
 
     @Override
@@ -26,7 +29,7 @@ public class ChangedFile implements FileSystemChange
 
         ChangedFile that = (ChangedFile) o;
 
-        if(changedFile != null ? !changedFile.equals(that.changedFile) : that.changedFile != null) return false;
+        if(file != null ? !file.equals(that.file) : that.file != null) return false;
 
         return true;
     }
@@ -34,6 +37,12 @@ public class ChangedFile implements FileSystemChange
     @Override
     public int hashCode()
     {
-        return changedFile != null ? changedFile.hashCode() : 0;
+        return file != null ? file.hashCode() : 0;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "ChangedFile: " + file.getAbsolutePath();
     }
 }
