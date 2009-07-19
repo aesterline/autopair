@@ -1,4 +1,4 @@
-package org.autopair.monitor.git;
+package org.autopair.monitor.vcs.git;
 
 public class GitStatusSamples
 {

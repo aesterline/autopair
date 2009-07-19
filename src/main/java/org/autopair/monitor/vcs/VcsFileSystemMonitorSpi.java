@@ -20,8 +20,7 @@ public class VcsFileSystemMonitorSpi implements FileSystemMonitorSpi
 
     public List<FileSystemChange> checkForChanges()
     {
-        List<FileSystemChange> matchingChanges = changeFilter.selectMatching(vcs.status());
-        return matchingChanges;
+        return changeFilter.selectMatching(vcs.status());
     }
 
     public void setListener(FileSystemChangeListener listener)

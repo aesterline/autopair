@@ -21,8 +21,8 @@ import org.autopair.monitor.FileSystemChangeListeners;
 import org.autopair.monitor.FileSystemMonitor;
 import org.autopair.monitor.FileSystemMonitorSpi;
 import org.autopair.monitor.TimerFileSystemMonitor;
-import org.autopair.monitor.git.GitFileSystemMonitor;
-import org.autopair.monitor.git.GitStatus;
+import org.autopair.monitor.vcs.git.GitFileSystemMonitor;
+import org.autopair.monitor.vcs.git.GitStatus;
 
 public class AutoPair
 {
