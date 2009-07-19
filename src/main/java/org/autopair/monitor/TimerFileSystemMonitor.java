@@ -8,6 +8,7 @@ public class TimerFileSystemMonitor extends TimerTask implements FileSystemMonit
     public static final int NUMBER_OF_MILLIS_PER_SECOND = 1000;
 
     private FileSystemMonitorSpi spi;
+    private FileSystemChangeListener listener;
 
     public TimerFileSystemMonitor(FileSystemMonitorSpi spi, Timer timer, int delayInSeconds)
     {
@@ -17,11 +18,11 @@ public class TimerFileSystemMonitor extends TimerTask implements FileSystemMonit
 
     public void setListener(FileSystemChangeListener listener)
     {
-        spi.setListener(listener);
+        this.listener = listener;
     }
 
     public void run()
     {
-        spi.checkForChanges();
+        listener.changes(spi.checkForChanges());
     }
 }

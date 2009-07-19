@@ -1,9 +1,12 @@
 package org.autopair.monitor;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Timer;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -13,21 +16,25 @@ public class TimerFileSystemMonitorTest
     private FileSystemMonitorSpi spi;
     private Timer timer;
     private FileSystemChangeListener listener;
-
-    public void listenersShouldBePassedToUnderlyingFileSystemMonitorSpi()
-    {
-        TimerFileSystemMonitor monitor = new TimerFileSystemMonitor(spi, timer, 10);
-        monitor.setListener(listener);
-
-        verify(spi).setListener(listener);
-    }
+    private TimerFileSystemMonitor monitor;
 
     public void runShouldCheckForChanges()
     {
-        TimerFileSystemMonitor monitor = new TimerFileSystemMonitor(spi, timer, 10);
         monitor.run();
 
         verify(spi).checkForChanges();
+    }
+
+    public void listenersShouldBeNotifiedOfChanges()
+    {
+        List<FileSystemChange> changes = Arrays.asList((FileSystemChange) new AddedFile("junk.txt"));
+        when(spi.checkForChanges()).thenReturn(changes);
+
+        TimerFileSystemMonitor monitor = new TimerFileSystemMonitor(spi, timer, 10);
+        monitor.setListener(listener);
+        monitor.run();
+
+        verify(listener).changes(changes);
     }
 
     public void monitorShouldBeScheduledWithSecondsTranslatedToMilliseconds()
@@ -44,5 +51,7 @@ public class TimerFileSystemMonitorTest
         spi = mock(FileSystemMonitorSpi.class);
         timer = mock(Timer.class);
         listener = mock(FileSystemChangeListener.class);
+        monitor = new TimerFileSystemMonitor(spi, timer, 10);
+        monitor.setListener(listener);
     }
 }
