@@ -37,7 +37,10 @@ public class FileSystemChangeListeners implements FileSystemChangeListener
 
     public void changes(List<FileSystemChange> changes)
     {
-        //To change body of implemented methods use File | Settings | File Templates.
+        for(FileSystemChangeListener listener : listeners)
+        {
+            listener.changes(changes);
+        }
     }
 
     private void forAllInvoke(String methodName, File file)
