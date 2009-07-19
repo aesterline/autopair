@@ -1,6 +1,5 @@
 package org.autopair.monitor.vcs;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -9,7 +8,6 @@ import org.autopair.monitor.AddedFile;
 import org.autopair.monitor.ChangedFile;
 import org.autopair.monitor.FileSystemChange;
 import org.autopair.monitor.FileSystemChangeFilter;
-import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertEquals;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -21,7 +19,7 @@ public class AddedChangesFileSystemChangeFilterTest
 
     public void firstTimeSeeingAnAddedFileShouldSelectAsAddedFile()
     {
-        FileSystemChange added = mock(AddedFile.class);
+        FileSystemChange added = new AddedFile("junk.txt");
         List<FileSystemChange> changes = Collections.singletonList(added);
         List<FileSystemChange> selected = filter.selectMatching(changes);
 
@@ -30,7 +28,7 @@ public class AddedChangesFileSystemChangeFilterTest
 
     public void secondTimeSeeingAnAddedFileShouldBeConvertedToAChangedFile()
     {
-        AddedFile added = new AddedFile(new File("junk.txt"));
+        AddedFile added = new AddedFile("junk.txt");
         List<FileSystemChange> changes = Collections.singletonList((FileSystemChange) added);
 
         filter.selectMatching(changes);
@@ -41,7 +39,7 @@ public class AddedChangesFileSystemChangeFilterTest
 
     public void addedFilesNotSeenShouldBeRemovedFromCache()
     {
-        AddedFile added = mock(AddedFile.class);
+        AddedFile added = new AddedFile("junk.txt");
         List<FileSystemChange> changes = Collections.singletonList((FileSystemChange) added);
         List<FileSystemChange> emptyChanges = Collections.emptyList();
 

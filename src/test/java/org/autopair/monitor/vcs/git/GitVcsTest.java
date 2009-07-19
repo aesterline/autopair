@@ -1,6 +1,5 @@
 package org.autopair.monitor.vcs.git;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,14 +18,13 @@ import org.testng.annotations.Test;
 public class GitVcsTest
 {
     private GitStatus status;
-    private FileSystemChangeListener listener;
     private GitVcs vcs;
 
     public void unTrackedFilesResultInAnAddedFile()
     {
         List<FileSystemChange> changes = status(GitStatusSamples.UNTRACKED_FILE);
         FileSystemChange[] expectedChanges = {
-                new AddedFile(new File("pom.xml"))
+                new AddedFile("pom.xml")
         };
 
         assertChangesContainsAll(changes, expectedChanges);
@@ -36,7 +34,7 @@ public class GitVcsTest
     {
         List<FileSystemChange> changes = status(GitStatusSamples.TRACKED_FILE);
         FileSystemChange[] expectedChanges = {
-                new ChangedFile(new File("src/test/java/org/agileide/monitor/git/GitVcsTest.java"))
+                new ChangedFile("src/test/java/org/agileide/monitor/git/GitVcsTest.java")
         };
 
         assertChangesContainsAll(changes, expectedChanges);
@@ -46,8 +44,8 @@ public class GitVcsTest
     {
         List<FileSystemChange> changes = status(GitStatusSamples.MULTIPLE_TRACKED_FILES);
         FileSystemChange[] expectedChanges = {
-                new ChangedFile(new File("src/main/java/org/agileide/monitor/FileSystemChangeListener.java")),
-                new ChangedFile(new File("src/test/java/org/agileide/monitor/git/GitStatusSamples.java"))
+                new ChangedFile("src/main/java/org/agileide/monitor/FileSystemChangeListener.java"),
+                new ChangedFile("src/test/java/org/agileide/monitor/git/GitStatusSamples.java")
         };
 
         assertChangesContainsAll(changes, expectedChanges);
@@ -57,8 +55,8 @@ public class GitVcsTest
     {
         List<FileSystemChange> changes = status(GitStatusSamples.MULTIPLE_UNTRACKED_FILES);
         FileSystemChange[] expectedChanges = {
-                new AddedFile(new File("pom.xml")),
-                new AddedFile(new File("junk/me/you/cool.txt"))
+                new AddedFile("pom.xml"),
+                new AddedFile("junk/me/you/cool.txt")
         };
 
         assertChangesContainsAll(changes, expectedChanges);
@@ -68,7 +66,7 @@ public class GitVcsTest
     {
         List<FileSystemChange> changes = status(GitStatusSamples.DELETED_TRACKED_FILE);
         FileSystemChange[] expectedChanges = {
-                new DeletedFile(new File("pom.xml"))
+                new DeletedFile("pom.xml")
         };
 
         assertChangesContainsAll(changes, expectedChanges);
@@ -78,8 +76,8 @@ public class GitVcsTest
     {
         List<FileSystemChange> changes = status(GitStatusSamples.MULTIPLE_DELETED_TRACKED_FILES);
         FileSystemChange[] expectedChanges = {
-                new DeletedFile(new File("pom.xml")),
-                new DeletedFile(new File("src/test/java/org/agileide/monitor/git/GitStatusSamples.java"))
+                new DeletedFile("pom.xml"),
+                new DeletedFile("src/test/java/org/agileide/monitor/git/GitStatusSamples.java")
         };
 
         assertChangesContainsAll(changes, expectedChanges);
@@ -89,8 +87,8 @@ public class GitVcsTest
     {
         List<FileSystemChange> changes = status(GitStatusSamples.MIXED_TRACKED_AND_UNTRACKED);
         FileSystemChange[] expectedChanges = {
-                new DeletedFile(new File("pom.xml")),
-                new AddedFile(new File("junk/for/me/yes.txt"))
+                new DeletedFile("pom.xml"),
+                new AddedFile("junk/for/me/yes.txt")
         };
 
         assertChangesContainsAll(changes, expectedChanges);
@@ -100,7 +98,7 @@ public class GitVcsTest
     {
         List<FileSystemChange> changes = status(GitStatusSamples.NEW_FILE_IN_INDEX);
         FileSystemChange[] expectedChanges = {
-                new AddedFile(new File("junk.txt"))
+                new AddedFile("junk.txt")
         };
 
         assertChangesContainsAll(changes, expectedChanges);
@@ -110,8 +108,8 @@ public class GitVcsTest
     {
         List<FileSystemChange> changes = status(GitStatusSamples.MULTIPLE_FILES_IN_INDEX);
         FileSystemChange[] expectedChanges = {
-                new ChangedFile(new File("README")),
-                new AddedFile(new File("junk.txt"))
+                new ChangedFile("README"),
+                new AddedFile("junk.txt")
         };
 
         assertChangesContainsAll(changes, expectedChanges);
@@ -121,8 +119,8 @@ public class GitVcsTest
     {
         List<FileSystemChange> changes = status(GitStatusSamples.RENAMED_FILE_IN_INDEX);
         FileSystemChange[] expectedChanges = {
-                new DeletedFile(new File("pom.xml")),
-                new AddedFile(new File("job.xml"))
+                new DeletedFile("pom.xml"),
+                new AddedFile("job.xml")
         };
 
         assertChangesContainsAll(changes, expectedChanges);
@@ -143,7 +141,7 @@ public class GitVcsTest
     protected void setUp() throws Exception
     {
         status = mock(GitStatus.class);
-        listener = mock(FileSystemChangeListener.class);
+        FileSystemChangeListener listener = mock(FileSystemChangeListener.class);
         vcs = new GitVcs(status);
 
         vcs.setListener(listener);

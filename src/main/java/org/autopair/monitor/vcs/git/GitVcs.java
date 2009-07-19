@@ -46,30 +46,30 @@ public class GitVcs implements FileSystemMonitorSpi, Vcs
                 String modifiedFile = change.substring(MODIFIED.length()).trim();
                 File changedFile = new File(modifiedFile);
                 listener.changedFile(changedFile);
-                systemChanges.add(new ChangedFile(changedFile));
+                systemChanges.add(new ChangedFile(modifiedFile));
             }
             else if(change.startsWith(DELETED))
             {
                 String deletedFile = change.substring(DELETED.length()).trim();
                 listener.deletedFile(new File(deletedFile));
-                systemChanges.add(new DeletedFile(new File(deletedFile)));
+                systemChanges.add(new DeletedFile(deletedFile));
             }
             else if(change.startsWith(NEW))
             {
                 String newFile = change.substring(NEW.length()).trim();
                 listener.newFile(new File(newFile));
-                systemChanges.add(new AddedFile(new File(newFile)));
+                systemChanges.add(new AddedFile(newFile));
             }
             else if(change.startsWith(RENAMED))
             {
                 String renameDefinition = change.substring(RENAMED.length()).trim();
                 String[] renameParts = renameDefinition.split("->");
 
-                File deletedFile = new File(renameParts[0].trim());
-                File addedFile = new File(renameParts[1].trim());
+                String deletedFile = renameParts[0].trim();
+                String addedFile = renameParts[1].trim();
 
-                listener.deletedFile(deletedFile);
-                listener.newFile(addedFile);
+                listener.deletedFile(new File(deletedFile));
+                listener.newFile(new File(addedFile));
                 systemChanges.add(new DeletedFile(deletedFile));
                 systemChanges.add(new AddedFile(addedFile));
             }
@@ -81,8 +81,8 @@ public class GitVcs implements FileSystemMonitorSpi, Vcs
             {
                 if(newFiles)
                 {
-                    File addedFile = new File(change.substring(1).trim());
-                    listener.newFile(addedFile);
+                    String addedFile = change.substring(1).trim();
+                    listener.newFile(new File(addedFile));
                     systemChanges.add(new AddedFile(addedFile));
                 }
             }
