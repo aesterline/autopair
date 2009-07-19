@@ -21,8 +21,8 @@ import org.autopair.monitor.FileSystemChangeListeners;
 import org.autopair.monitor.FileSystemMonitor;
 import org.autopair.monitor.FileSystemMonitorSpi;
 import org.autopair.monitor.TimerFileSystemMonitor;
-import org.autopair.monitor.vcs.git.GitFileSystemMonitor;
 import org.autopair.monitor.vcs.git.GitStatus;
+import org.autopair.monitor.vcs.git.GitVcs;
 
 public class AutoPair
 {
@@ -56,7 +56,7 @@ public class AutoPair
 
         new RemoteTestRunnerClient().start();
 
-        FileSystemMonitorSpi spi = new GitFileSystemMonitor(new GitStatus(git));
+        FileSystemMonitorSpi spi = new GitVcs(new GitStatus(git));
         Timer timer = new Timer();
         FileSystemMonitor fileSystemMonitor = new TimerFileSystemMonitor(spi, timer, 10);
 

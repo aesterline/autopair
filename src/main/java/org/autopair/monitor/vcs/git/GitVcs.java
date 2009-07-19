@@ -1,13 +1,17 @@
 package org.autopair.monitor.vcs.git;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.autopair.monitor.AddedFile;
+import org.autopair.monitor.ChangedFile;
 import org.autopair.monitor.FileSystemChange;
 import org.autopair.monitor.FileSystemChangeListener;
 import org.autopair.monitor.FileSystemMonitorSpi;
+import org.autopair.monitor.vcs.Vcs;
 
-public class GitFileSystemMonitor implements FileSystemMonitorSpi
+public class GitVcs implements FileSystemMonitorSpi, Vcs
 {
     private GitStatus gitStatus;
     private FileSystemChangeListener listener;
@@ -17,7 +21,7 @@ public class GitFileSystemMonitor implements FileSystemMonitorSpi
     private static final String NEW = "#\tnew file:";
     private static final String RENAMED = "#\trenamed:";
 
-    public GitFileSystemMonitor(GitStatus gitStatus)
+    public GitVcs(GitStatus gitStatus)
     {
         this.gitStatus = gitStatus;
     }
@@ -32,12 +36,16 @@ public class GitFileSystemMonitor implements FileSystemMonitorSpi
         String[] changes = gitStatus.status().split("\n");
         boolean newFiles = false;
 
+        List<FileSystemChange> systemChanges = new ArrayList<FileSystemChange>();
+
         for(String change : changes)
         {
             if(change.startsWith(MODIFIED))
             {
                 String modifiedFile = change.substring(MODIFIED.length()).trim();
-                listener.changedFile(new File(modifiedFile));
+                File changedFile = new File(modifiedFile);
+                listener.changedFile(changedFile);
+                systemChanges.add(new ChangedFile(changedFile));
             }
             else if(change.startsWith(DELETED))
             {
@@ -65,11 +73,18 @@ public class GitFileSystemMonitor implements FileSystemMonitorSpi
             {
                 if(newFiles)
                 {
-                    listener.newFile(new File(change.substring(1).trim()));
+                    File addedFile = new File(change.substring(1).trim());
+                    listener.newFile(addedFile);
+                    systemChanges.add(new AddedFile(addedFile));
                 }
             }
         }
 
-        return null;
+        return systemChanges;
+    }
+
+    public List<FileSystemChange> status()
+    {
+        return checkForChanges();
     }
 }

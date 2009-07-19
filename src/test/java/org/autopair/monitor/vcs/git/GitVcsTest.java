@@ -1,38 +1,44 @@
 package org.autopair.monitor.vcs.git;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 
+import org.autopair.monitor.AddedFile;
+import org.autopair.monitor.ChangedFile;
+import org.autopair.monitor.FileSystemChange;
 import org.autopair.monitor.FileSystemChangeListener;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.testng.Assert.assertEquals;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 @Test
-public class GitFileSystemMonitorTest
+public class GitVcsTest
 {
     private GitStatus status;
     private FileSystemChangeListener listener;
-    private GitFileSystemMonitor monitor;
+    private GitVcs vcs;
 
-    public void unTrackedFilesShouldFireNewFileEvent()
+    public void unTrackedFilesResultInAnAddedFile()
     {
-        checkForChanges(GitStatusSamples.UNTRACKED_FILE);
+        List<FileSystemChange> changes = status(GitStatusSamples.UNTRACKED_FILE);
 
-        verify(listener).newFile(new File("pom.xml"));
+        assertChangesContainsAll(changes, new AddedFile(new File("pom.xml")));
     }
 
-    public void trackedFilesShouldFireChangedFileEvent()
+    public void trackedFilesShouldResultInAChangedFile()
     {
-        checkForChanges(GitStatusSamples.TRACKED_FILE);
+        List<FileSystemChange> changes = status(GitStatusSamples.TRACKED_FILE);
 
-        verify(listener).changedFile(new File("src/test/java/org/agileide/monitor/git/GitFileSystemMonitorTest.java"));
+        assertChangesContainsAll(changes, new ChangedFile(new File("src/test/java/org/agileide/monitor/git/GitVcsTest.java")));
     }
 
     public void multipleTrackedFileShouldFireChangedFileEventForEachChange()
     {
-        checkForChanges(GitStatusSamples.MULTIPLE_TRACKED_FILES);
+        status(GitStatusSamples.MULTIPLE_TRACKED_FILES);
 
         verify(listener).changedFile(new File("src/main/java/org/agileide/monitor/FileSystemChangeListener.java"));
         verify(listener).changedFile(new File("src/test/java/org/agileide/monitor/git/GitStatusSamples.java"));
@@ -40,7 +46,7 @@ public class GitFileSystemMonitorTest
 
     public void multipleUnTrackedFilesShouldFireNewFileEventForEachNewFile()
     {
-        checkForChanges(GitStatusSamples.MULTIPLE_UNTRACKED_FILES);
+        status(GitStatusSamples.MULTIPLE_UNTRACKED_FILES);
 
         verify(listener).newFile(new File("pom.xml"));
         verify(listener).newFile(new File("junk/me/you/cool.txt"));
@@ -48,14 +54,14 @@ public class GitFileSystemMonitorTest
 
     public void deletedFileShouldFireDeletedFileEvent()
     {
-        checkForChanges(GitStatusSamples.DELETED_TRACKED_FILE);
+        status(GitStatusSamples.DELETED_TRACKED_FILE);
 
         verify(listener).deletedFile(new File("pom.xml"));
     }
 
     public void multipleDeletedFilesShouldFireDeletedFileEventForEachDeletedFile()
     {
-        checkForChanges(GitStatusSamples.MULTIPLE_DELETED_TRACKED_FILES);
+        status(GitStatusSamples.MULTIPLE_DELETED_TRACKED_FILES);
 
         verify(listener).deletedFile(new File("pom.xml"));
         verify(listener).deletedFile(new File("src/test/java/org/agileide/monitor/git/GitStatusSamples.java"));
@@ -63,7 +69,7 @@ public class GitFileSystemMonitorTest
 
     public void trackedAndUntrackedFilesShouldFireCorrectEvents()
     {
-        checkForChanges(GitStatusSamples.MIXED_TRACKED_AND_UNTRACKED);
+        status(GitStatusSamples.MIXED_TRACKED_AND_UNTRACKED);
 
         verify(listener).deletedFile(new File("pom.xml"));
         verify(listener).newFile(new File("junk/for/me/yes.txt"));
@@ -71,14 +77,14 @@ public class GitFileSystemMonitorTest
 
     public void newFilesInIndexShouldFireNewFileEvent()
     {
-        checkForChanges(GitStatusSamples.NEW_FILE_IN_INDEX);
+        status(GitStatusSamples.NEW_FILE_IN_INDEX);
 
         verify(listener).newFile(new File("junk.txt"));
     }
 
     public void multipleFilesInIndexShouldFireCorrectEvents()
     {
-        checkForChanges(GitStatusSamples.MULTIPLE_FILES_IN_INDEX);
+        status(GitStatusSamples.MULTIPLE_FILES_IN_INDEX);
 
         verify(listener).newFile(new File("junk.txt"));
         verify(listener).changedFile(new File("README"));
@@ -86,16 +92,21 @@ public class GitFileSystemMonitorTest
 
     public void renamedFileInIndexShouldFireDeleteThenNewEvents()
     {
-        checkForChanges(GitStatusSamples.RENAMED_FILE_IN_INDEX);
+        status(GitStatusSamples.RENAMED_FILE_IN_INDEX);
 
         verify(listener).deletedFile(new File("pom.xml"));
         verify(listener).newFile(new File("job.xml"));
     }
 
-    private void checkForChanges(String gitStatus)
+    private List<FileSystemChange> status(String gitStatus)
     {
         when(status.status()).thenReturn(gitStatus);
-        monitor.checkForChanges();
+        return vcs.status();
+    }
+
+    private void assertChangesContainsAll(List<FileSystemChange> changes, FileSystemChange... expected)
+    {
+        assertEquals(changes, Arrays.asList(expected));
     }
 
     @BeforeMethod
@@ -103,8 +114,8 @@ public class GitFileSystemMonitorTest
     {
         status = mock(GitStatus.class);
         listener = mock(FileSystemChangeListener.class);
-        monitor = new GitFileSystemMonitor(status);
+        vcs = new GitVcs(status);
 
-        monitor.setListener(listener);
+        vcs.setListener(listener);
     }
 }

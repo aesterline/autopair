@@ -1,14 +1,21 @@
 package org.autopair.monitor;
 
+import java.io.File;
+
 public class ChangedFile implements FileSystemChange
 {
-    private long whocares = 0;
+    private File changedFile;
 
     public ChangedFile(AddedFile added) {}
 
+    public ChangedFile(File changedFile)
+    {
+        this.changedFile = changedFile;
+    }
+
     public long lastUpdateTime()
     {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        return changedFile.lastModified();
     }
 
     @Override
@@ -19,7 +26,7 @@ public class ChangedFile implements FileSystemChange
 
         ChangedFile that = (ChangedFile) o;
 
-        if(whocares != that.whocares) return false;
+        if(changedFile != null ? !changedFile.equals(that.changedFile) : that.changedFile != null) return false;
 
         return true;
     }
@@ -27,6 +34,6 @@ public class ChangedFile implements FileSystemChange
     @Override
     public int hashCode()
     {
-        return (int) (whocares ^ (whocares >>> 32));
+        return changedFile != null ? changedFile.hashCode() : 0;
     }
 }

@@ -27,7 +27,7 @@ public class GitStatusSamples
                                               "#   (use \"git add <file>...\" to update what will be committed)\n" +
                                               "#   (use \"git checkout -- <file>...\" to discard changes in working directory)\n" +
                                               "#\n" +
-                                              "#\tmodified:   src/test/java/org/agileide/monitor/git/GitFileSystemMonitorTest.java\n" +
+                                              "#\tmodified:   src/test/java/org/agileide/monitor/git/GitVcsTest.java\n" +
                                               "#";
 
     public static final String MULTIPLE_TRACKED_FILES = "# On branch master\n" +
