@@ -1,6 +1,7 @@
 package org.autopair.monitor;
 
-import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -14,34 +15,14 @@ public class FileSystemChangeListenersTest
     private FileSystemChangeListener testListener;
     private FileSystemChangeListener listeners;
 
-    public void allListenersShouldBeNotifiedWhenFileAdded()
+    public void allListenersShouldBeNotifiedOfChanges()
     {
-        File addedFile = new File("MyTest.java");
+        List<FileSystemChange> changes = Arrays.asList(mock(FileSystemChange.class));
 
-        listeners.newFile(addedFile);
+        listeners.changes(changes);
 
-        verify(compilerListener).newFile(addedFile);
-        verify(testListener).newFile(addedFile);
-    }
-
-    public void allListenersShouldBeNotifiedWhenFileChanged()
-    {
-        File changedFile = new File("MyTest.java");
-
-        listeners.changedFile(changedFile);
-
-        verify(compilerListener).changedFile(changedFile);
-        verify(testListener).changedFile(changedFile);
-    }
-
-    public void allListenersShouldBeNotifiedWhenFileDeleted()
-    {
-        File deletedFile = new File("MyTest.java");
-
-        listeners.deletedFile(deletedFile);
-
-        verify(compilerListener).deletedFile(deletedFile);
-        verify(testListener).deletedFile(deletedFile);
+        verify(compilerListener).changes(changes);
+        verify(testListener).changes(changes);
     }
 
     @BeforeMethod
