@@ -28,7 +28,7 @@ public class RecentChangesFileSystemChangeFilter implements FileSystemChangeFilt
                     public boolean evaluate(Object object)
                     {
                         FileSystemChange change = (FileSystemChange) object;
-                        return change.lastUpdateTime() > clock.currentMark();
+                        return change.lastModifiedTime() > clock.currentMark();
                     }
                 },
                 selected);

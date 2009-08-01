@@ -25,7 +25,7 @@ public class RecentChangesFileSystemChangeFilterTest
         List<FileSystemChange> unfilteredChanges = Arrays.asList(change);
 
         when(clock.currentMark()).thenReturn(1l);
-        when(change.lastUpdateTime()).thenReturn(2l);
+        when(change.lastModifiedTime()).thenReturn(2l);
 
         assertFilterSelected(unfilteredChanges, change);
     }
@@ -38,8 +38,8 @@ public class RecentChangesFileSystemChangeFilterTest
         List<FileSystemChange> unfilteredChanges = Arrays.asList(oldChange, newChange);
 
         when(clock.currentMark()).thenReturn(2l);
-        when(oldChange.lastUpdateTime()).thenReturn(1l);
-        when(newChange.lastUpdateTime()).thenReturn(3l);
+        when(oldChange.lastModifiedTime()).thenReturn(1l);
+        when(newChange.lastModifiedTime()).thenReturn(3l);
 
         assertFilterSelected(unfilteredChanges, newChange);
     }

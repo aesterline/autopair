@@ -28,7 +28,7 @@ public class FileSystemChange
         return file;
     }
 
-    public long lastUpdateTime()
+    public long lastModifiedTime()
     {
         return file.lastModified();
     }
@@ -41,7 +41,8 @@ public class FileSystemChange
 
         FileSystemChange that = (FileSystemChange) o;
 
-        if(file != null ? !file.equals(that.file) : that.file != null) return false;
+        if(!file.equals(that.file)) return false;
+        if(type != that.type) return false;
 
         return true;
     }
@@ -49,6 +50,8 @@ public class FileSystemChange
     @Override
     public int hashCode()
     {
-        return file != null ? file.hashCode() : 0;
+        int result = file.hashCode();
+        result = 31 * result + type.hashCode();
+        return result;
     }
 }
