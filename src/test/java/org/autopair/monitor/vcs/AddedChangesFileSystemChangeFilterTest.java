@@ -4,10 +4,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.autopair.monitor.AddedFile;
-import org.autopair.monitor.ChangedFile;
 import org.autopair.monitor.FileSystemChange;
 import org.autopair.monitor.FileSystemChangeFilter;
+import org.autopair.monitor.SystemChangeType;
 import static org.testng.Assert.assertEquals;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -19,7 +18,7 @@ public class AddedChangesFileSystemChangeFilterTest
 
     public void firstTimeSeeingAnAddedFileShouldSelectAsAddedFile()
     {
-        FileSystemChange added = new AddedFile("junk.txt");
+        FileSystemChange added = new FileSystemChange("junk.txt", SystemChangeType.ADDED);
         List<FileSystemChange> changes = Collections.singletonList(added);
         List<FileSystemChange> selected = filter.selectMatching(changes);
 
@@ -28,19 +27,19 @@ public class AddedChangesFileSystemChangeFilterTest
 
     public void secondTimeSeeingAnAddedFileShouldBeConvertedToAChangedFile()
     {
-        AddedFile added = new AddedFile("junk.txt");
-        List<FileSystemChange> changes = Collections.singletonList((FileSystemChange) added);
+        FileSystemChange added = new FileSystemChange("junk.txt", SystemChangeType.ADDED);
+        List<FileSystemChange> changes = Collections.singletonList(added);
 
         filter.selectMatching(changes);
         List<FileSystemChange> selected = filter.selectMatching(changes);
 
-        assertEquals(selected, Arrays.asList(new ChangedFile(added)));
+        assertEquals(selected, Arrays.asList(new FileSystemChange(added.getFile(), SystemChangeType.MODIFIED)));
     }
 
     public void addedFilesNotSeenShouldBeRemovedFromCache()
     {
-        AddedFile added = new AddedFile("junk.txt");
-        List<FileSystemChange> changes = Collections.singletonList((FileSystemChange) added);
+        FileSystemChange added = new FileSystemChange("junk.txt", SystemChangeType.ADDED);
+        List<FileSystemChange> changes = Collections.singletonList(added);
         List<FileSystemChange> emptyChanges = Collections.emptyList();
 
         filter.selectMatching(changes);

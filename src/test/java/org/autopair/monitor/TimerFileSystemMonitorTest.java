@@ -27,7 +27,7 @@ public class TimerFileSystemMonitorTest
 
     public void listenersShouldBeNotifiedOfChanges()
     {
-        List<FileSystemChange> changes = Arrays.asList((FileSystemChange) new AddedFile("junk.txt"));
+        List<FileSystemChange> changes = Arrays.asList(new FileSystemChange("junk.txt", SystemChangeType.ADDED));
         when(spi.checkForChanges()).thenReturn(changes);
 
         TimerFileSystemMonitor monitor = new TimerFileSystemMonitor(spi, timer, 10);

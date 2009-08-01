@@ -7,36 +7,34 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Transformer;
-import org.autopair.monitor.AddedFile;
-import org.autopair.monitor.ChangedFile;
 import org.autopair.monitor.FileSystemChange;
 import org.autopair.monitor.FileSystemChangeFilter;
+import org.autopair.monitor.SystemChangeType;
 
 public class AddedChangesFileSystemChangeFilter implements FileSystemChangeFilter
 {
-    private Set<AddedFile> addedFiles = new HashSet<AddedFile>();
+    private Set<FileSystemChange> addedFiles = new HashSet<FileSystemChange>();
 
     public List<FileSystemChange> selectMatching(List<FileSystemChange> changes)
     {
         List<FileSystemChange> selected = new ArrayList<FileSystemChange>(changes);
-        final Set<AddedFile> currentAddedFiles = new HashSet<AddedFile>();
+        final Set<FileSystemChange> currentAddedFiles = new HashSet<FileSystemChange>();
 
         CollectionUtils.transform(selected, new Transformer()
         {
             public Object transform(Object input)
             {
                 FileSystemChange change = (FileSystemChange) input;
-                if(change instanceof AddedFile)
+                if(change.getType() == SystemChangeType.ADDED)
                 {
-                    AddedFile added = (AddedFile) change;
-                    currentAddedFiles.add(added);
-                    if(addedFiles.contains(added))
+                    currentAddedFiles.add(change);
+                    if(addedFiles.contains(change))
                     {
-                        return new ChangedFile(added);
+                        return new FileSystemChange(change.getFile(), SystemChangeType.MODIFIED);
                     }
                     else
                     {
-                        addedFiles.add(added);
+                        addedFiles.add(change);
                     }
                 }
 

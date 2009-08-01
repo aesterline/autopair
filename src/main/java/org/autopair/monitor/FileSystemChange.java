@@ -2,28 +2,35 @@ package org.autopair.monitor;
 
 import java.io.File;
 
-public abstract class FileSystemChange
+public class FileSystemChange
 {
     private final File file;
+    private final SystemChangeType type;
 
-    public FileSystemChange(File file)
+    public FileSystemChange(File file, SystemChangeType type)
     {
         this.file = file;
+        this.type = type;
     }
 
-    public FileSystemChange(String file)
+    public FileSystemChange(String file, SystemChangeType type)
     {
-        this(new File(file));
+        this(new File(file), type);
     }
 
-    public long lastUpdateTime()
+    public SystemChangeType getType()
     {
-        return file.lastModified();
+        return type;
     }
 
     public File getFile()
     {
         return file;
+    }
+
+    public long lastUpdateTime()
+    {
+        return file.lastModified();
     }
 
     @Override

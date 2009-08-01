@@ -38,7 +38,7 @@ public class FileSystemChangeFilterChainTest
     public void chainWithOneFilterShouldReturnDelegateSelection()
     {
         ArrayList<FileSystemChange> initialChanges = new ArrayList<FileSystemChange>();
-        List<FileSystemChange> expectedSelection = Arrays.asList((FileSystemChange) new AddedFile("junk.txt"));
+        List<FileSystemChange> expectedSelection = Arrays.asList(new FileSystemChange("junk.txt", SystemChangeType.ADDED));
         when(filter.selectMatching(initialChanges)).thenReturn(expectedSelection);
 
         List<FileSystemChange> selection = chain.selectMatching(initialChanges);
@@ -52,7 +52,7 @@ public class FileSystemChangeFilterChainTest
         FileSystemChangeFilter secondFilter = mock(FileSystemChangeFilter.class);
         chain = new FileSystemChangeFilterChain(filter, secondFilter);
 
-        List<FileSystemChange> firstSelection = Arrays.asList((FileSystemChange) new AddedFile("junk.txt"));
+        List<FileSystemChange> firstSelection = Arrays.asList((FileSystemChange) new FileSystemChange("junk.txt", SystemChangeType.ADDED));
         when(filter.selectMatching(changes)).thenReturn(firstSelection);
 
         chain.selectMatching(changes);
