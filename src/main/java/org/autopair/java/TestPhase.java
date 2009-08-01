@@ -2,8 +2,6 @@ package org.autopair.java;
 
 import java.util.List;
 
-import org.autopair.Tester;
-
 public class TestPhase implements Phase
 {
     private Tester tester;

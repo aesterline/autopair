@@ -2,7 +2,6 @@ package org.autopair.java;
 
 import java.util.Arrays;
 
-import org.autopair.Tester;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import org.testng.annotations.BeforeMethod;
