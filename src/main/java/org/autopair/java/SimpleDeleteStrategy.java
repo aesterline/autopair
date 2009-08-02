@@ -1,9 +1,8 @@
-package org.autopair.java.testng;
+package org.autopair.java;
 
 import java.io.File;
 
 import org.apache.commons.io.FileUtils;
-import org.autopair.java.DeleteStrategy;
 
 public class SimpleDeleteStrategy implements DeleteStrategy
 {

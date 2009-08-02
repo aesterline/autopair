@@ -5,11 +5,11 @@ import org.autopair.exec.Executable;
 import org.autopair.exec.Shell;
 import org.autopair.exec.shell.ProcessBuilderProcessFactory;
 import org.autopair.exec.shell.ProcessFactory;
-import org.autopair.exec.shell.ProcessShell;
 import org.autopair.inject.Git;
 import org.autopair.inject.GitProvider;
 import org.autopair.inject.MavenDeleteStrategyProvider;
 import org.autopair.inject.ProjectProvider;
+import org.autopair.inject.ShellProvider;
 import org.autopair.inject.VcsChangeFilter;
 import org.autopair.inject.VcsFileSystemChangeFilterProvider;
 import org.autopair.java.DeleteStrategy;
@@ -30,7 +30,7 @@ public class AutoPairModule extends AbstractModule
     protected void configure()
     {
         bind(ProcessFactory.class).to(ProcessBuilderProcessFactory.class);
-        bind(Shell.class).to(ProcessShell.class);
+        bind(Shell.class).toProvider(ShellProvider.class);
 
         bind(Executable.class).annotatedWith(Git.class).toProvider(GitProvider.class);
         bind(Vcs.class).to(GitVcs.class);

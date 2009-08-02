@@ -3,8 +3,8 @@ package org.autopair.inject;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import org.autopair.java.DeleteStrategy;
+import org.autopair.java.SimpleDeleteStrategy;
 import org.autopair.java.maven.MavenDeleteStrategy;
-import org.autopair.java.testng.SimpleDeleteStrategy;
 
 public class MavenDeleteStrategyProvider implements Provider<DeleteStrategy>
 {

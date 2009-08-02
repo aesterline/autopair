@@ -1,6 +1,7 @@
 package org.autopair.exec;
 
-import org.apache.commons.logging.Log;
+import java.util.logging.Logger;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -11,7 +12,7 @@ import org.testng.annotations.Test;
 @Test
 public class LoggingShellTest
 {
-    private Log log;
+    private Logger log;
     private Shell delegatee;
     private Shell shell;
 
@@ -48,7 +49,7 @@ public class LoggingShellTest
     @BeforeMethod
     protected void setUp() throws Exception
     {
-        log = mock(Log.class);
+        log = mock(Logger.class);
         delegatee = mock(Shell.class);
         shell = new LoggingShell(delegatee, log);
     }

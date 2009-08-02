@@ -1,14 +1,15 @@
 package org.autopair.exec;
 
+import java.util.logging.Logger;
+
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
 
 public class LoggingShell implements Shell
 {
     private Shell delegatee;
-    private Log log;
+    private Logger log;
 
-    public LoggingShell(Shell delegatee, Log log)
+    public LoggingShell(Shell delegatee, Logger log)
     {
         this.delegatee = delegatee;
         this.log = log;
