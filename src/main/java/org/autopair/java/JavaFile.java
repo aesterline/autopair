@@ -4,15 +4,16 @@ import java.io.File;
 
 public class JavaFile implements ProjectFile
 {
-    private final File changedFile;
+    private final File javaFile;
 
-    public JavaFile(File changedFile)
+    public JavaFile(File javaFile)
     {
-        this.changedFile = changedFile;
+        this.javaFile = javaFile;
     }
 
     public void clean(Cleaner cleaner)
     {
+        cleaner.addDirtyFiles(javaFile);
     }
 
     public void test(Tester tester)
@@ -27,7 +28,7 @@ public class JavaFile implements ProjectFile
 
         JavaFile javaFile = (JavaFile) o;
 
-        if(!changedFile.equals(javaFile.changedFile)) return false;
+        if(!this.javaFile.equals(javaFile.javaFile)) return false;
 
         return true;
     }
@@ -35,6 +36,6 @@ public class JavaFile implements ProjectFile
     @Override
     public int hashCode()
     {
-        return changedFile.hashCode();
+        return javaFile.hashCode();
     }
 }
