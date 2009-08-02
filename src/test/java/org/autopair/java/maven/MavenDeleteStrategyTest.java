@@ -16,8 +16,8 @@ public class MavenDeleteStrategyTest
 
     public void mainSrcShouldDeleteSameFileInTargetClasses()
     {
-        File fileToDelete = createAbsoluteFileFor("autopair.git/src/main/org/autopair/junk/Junk.java");
-        File expectedFileToDelete = createAbsoluteFileFor("autopair.git/target/classes/org/autopair/junk/Junk.java");
+        File fileToDelete = createAbsoluteFileFor("autopair.git/src/main/java/org/autopair/junk/Junk.java");
+        File expectedFileToDelete = createAbsoluteFileFor("autopair.git/target/classes/org/autopair/junk/Junk.class");
 
         strategy.delete(fileToDelete);
 
@@ -26,8 +26,8 @@ public class MavenDeleteStrategyTest
 
     public void mainTestShouldDeleteSameFileInTargetTestClasses()
     {
-        File fileToDelete = createAbsoluteFileFor("autopair.git/src/test/org/autopair/junk/Junk.java");
-        File expectedFileToDelete = createAbsoluteFileFor("autopair.git/target/test-classes/org/autopair/junk/Junk.java");
+        File fileToDelete = createAbsoluteFileFor("autopair.git/src/test/java/org/autopair/junk/Junk.java");
+        File expectedFileToDelete = createAbsoluteFileFor("autopair.git/target/test-classes/org/autopair/junk/Junk.class");
 
         strategy.delete(fileToDelete);
 

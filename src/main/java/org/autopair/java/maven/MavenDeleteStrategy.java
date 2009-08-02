@@ -17,8 +17,9 @@ public class MavenDeleteStrategy implements DeleteStrategy
     {
         String filename = file.getAbsolutePath();
 
-        filename = filename.replace("src/main", "target/classes");
-        filename = filename.replace("src/test", "target/test-classes");
+        filename = filename.replace("src/main/java", "target/classes");
+        filename = filename.replace("src/test/java", "target/test-classes");
+        filename = filename.replace(".java", ".class");
 
         delegatee.delete(new File(filename));
     }
