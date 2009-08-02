@@ -1,5 +1,10 @@
 package org.autopair;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import org.autopair.java.ProjectFileSystemMonitor;
+import org.autopair.monitor.FileSystemMonitor;
+
 public class AutoPair
 {
     private static final String CLASSPATH = "/Users/adam/.m2/repository/commons-io/commons-io/1.4/commons-io-1.4.jar:/Users/adam/.m2/repository/commons-lang/commons-lang/2.4/commons-lang-2.4.jar:/Users/adam/.m2/repository/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar:/Users/adam/.m2/repository/junit/junit/3.8.1/junit-3.8.1.jar:/Users/adam/.m2/repository/org/mockito/mockito-all/1.8.0-rc2/mockito-all-1.8.0-rc2.jar:/Users/adam/.m2/repository/org/testng/testng/5.9/testng-5.9-jdk15.jar";
@@ -49,5 +54,12 @@ public class AutoPair
 //        JavacFileSystemListener javacListener = new JavacFileSystemListener(new Javac(mainCompiler), new Javac(testCompiler));
 //        TestNGFileSystemChangeListener testNgListener = new TestNGFileSystemChangeListener(testng, ftc);
 //        fileSystemMonitor.setListener(new FileSystemChangeListeners(javacListener, testNgListener));
+
+        Injector injector = Guice.createInjector(new AutoPairModule());
+
+        FileSystemMonitor monitor = injector.getInstance(FileSystemMonitor.class);
+        ProjectFileSystemMonitor listener = injector.getInstance(ProjectFileSystemMonitor.class);
+
+        monitor.setListener(listener);
     }
 }

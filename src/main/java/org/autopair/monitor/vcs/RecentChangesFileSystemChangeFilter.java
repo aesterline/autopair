@@ -3,6 +3,7 @@ package org.autopair.monitor.vcs;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.inject.Inject;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.autopair.monitor.FileSystemChange;
@@ -12,6 +13,7 @@ public class RecentChangesFileSystemChangeFilter implements FileSystemChangeFilt
 {
     private Clock clock;
 
+    @Inject
     public RecentChangesFileSystemChangeFilter(Clock clock)
     {
         this.clock = clock;

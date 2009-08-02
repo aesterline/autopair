@@ -2,6 +2,7 @@ package org.autopair.exec.shell;
 
 import java.io.IOException;
 
+import com.google.inject.Inject;
 import org.apache.commons.io.IOUtils;
 import org.autopair.exec.Shell;
 
@@ -9,6 +10,7 @@ public class ProcessShell implements Shell
 {
     private ProcessFactory factory;
 
+    @Inject
     public ProcessShell(ProcessFactory factory)
     {
         this.factory = factory;

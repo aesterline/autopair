@@ -3,6 +3,7 @@ package org.autopair.java;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.inject.Inject;
 import org.autopair.monitor.FileSystemChange;
 import org.autopair.monitor.FileSystemChangeListener;
 
@@ -11,6 +12,7 @@ public class ProjectFileSystemMonitor implements FileSystemChangeListener
     private Project project;
     private ProjectFileFactory factory;
 
+    @Inject
     public ProjectFileSystemMonitor(Project project, ProjectFileFactory factory)
     {
         this.project = project;

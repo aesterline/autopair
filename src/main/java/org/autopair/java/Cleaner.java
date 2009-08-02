@@ -5,11 +5,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.google.inject.Inject;
+
 public class Cleaner
 {
     private List<File> files;
     private DeleteStrategy delete;
 
+    @Inject
     public Cleaner(DeleteStrategy delete)
     {
         this.delete = delete;

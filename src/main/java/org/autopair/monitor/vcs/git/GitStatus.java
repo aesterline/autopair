@@ -1,6 +1,8 @@
 package org.autopair.monitor.vcs.git;
 
+import com.google.inject.Inject;
 import org.autopair.exec.Executable;
+import org.autopair.inject.Git;
 
 public class GitStatus
 {
@@ -8,7 +10,8 @@ public class GitStatus
 
     private Executable status;
 
-    public GitStatus(Executable gitExe)
+    @Inject
+    public GitStatus(@Git Executable gitExe)
     {
         status = gitExe.addArguments(ARGUMENTS);
     }

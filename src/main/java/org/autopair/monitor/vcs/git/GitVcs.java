@@ -3,6 +3,7 @@ package org.autopair.monitor.vcs.git;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.inject.Inject;
 import org.autopair.monitor.FileSystemChange;
 import org.autopair.monitor.SystemChangeType;
 import org.autopair.monitor.vcs.Vcs;
@@ -16,6 +17,7 @@ public class GitVcs implements Vcs
     private static final String NEW = "#\tnew file:";
     private static final String RENAMED = "#\trenamed:";
 
+    @Inject
     public GitVcs(GitStatus gitStatus)
     {
         this.gitStatus = gitStatus;

@@ -2,6 +2,8 @@ package org.autopair.exec;
 
 import java.io.File;
 
+import com.google.inject.Inject;
+
 public class ExecutableFactory
 {
     public static String DOES_NOT_EXIST_MESSAGE = "%s does not exist";
@@ -9,6 +11,7 @@ public class ExecutableFactory
 
     private Shell shell;
 
+    @Inject
     public ExecutableFactory(Shell shell)
     {
         this.shell = shell;
