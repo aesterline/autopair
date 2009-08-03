@@ -7,16 +7,12 @@ import org.autopair.exec.shell.ProcessBuilderProcessFactory;
 import org.autopair.exec.shell.ProcessFactory;
 import org.autopair.inject.Git;
 import org.autopair.inject.GitProvider;
-import org.autopair.inject.MavenDeleteStrategyProvider;
-import org.autopair.inject.ProjectProvider;
+import org.autopair.inject.MavenProjectProvider;
 import org.autopair.inject.ShellProvider;
 import org.autopair.inject.VcsChangeFilter;
 import org.autopair.inject.VcsFileSystemChangeFilterProvider;
-import org.autopair.java.DeleteStrategy;
-import org.autopair.java.Project;
-import org.autopair.java.ProjectFileFactory;
-import org.autopair.java.maven.MavenProjectFileFactory;
 import org.autopair.monitor.FileSystemChangeFilter;
+import org.autopair.monitor.FileSystemChangeListener;
 import org.autopair.monitor.FileSystemMonitor;
 import org.autopair.monitor.FileSystemMonitorSpi;
 import org.autopair.monitor.TimerFileSystemMonitor;
@@ -39,9 +35,7 @@ public class AutoPairModule extends AbstractModule
         bind(FileSystemMonitorSpi.class).to(VcsFileSystemMonitorSpi.class);
         bind(FileSystemMonitor.class).to(TimerFileSystemMonitor.class);
 
-        bind(DeleteStrategy.class).toProvider(MavenDeleteStrategyProvider.class);
-        bind(ProjectFileFactory.class).to(MavenProjectFileFactory.class);
-
-        bind(Project.class).toProvider(ProjectProvider.class);
+        bind(Project.class).toProvider(MavenProjectProvider.class);
+        bind(FileSystemChangeListener.class).to(ProjectFileSystemChangeListener.class);
     }
 }

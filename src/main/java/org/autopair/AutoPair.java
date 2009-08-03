@@ -2,7 +2,7 @@ package org.autopair;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import org.autopair.java.ProjectFileSystemMonitor;
+import org.autopair.monitor.FileSystemChangeListener;
 import org.autopair.monitor.FileSystemMonitor;
 
 public class AutoPair
@@ -58,7 +58,7 @@ public class AutoPair
         Injector injector = Guice.createInjector(new AutoPairModule());
 
         FileSystemMonitor monitor = injector.getInstance(FileSystemMonitor.class);
-        ProjectFileSystemMonitor listener = injector.getInstance(ProjectFileSystemMonitor.class);
+        FileSystemChangeListener listener = injector.getInstance(FileSystemChangeListener.class);
 
         monitor.setListener(listener);
     }
