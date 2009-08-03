@@ -4,8 +4,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import org.autopair.monitor.FileSystemChangeFilter;
 import org.autopair.monitor.FileSystemChangeFilterChain;
-import org.autopair.monitor.vcs.AddedChangesFileSystemChangeFilter;
-import org.autopair.monitor.vcs.RecentChangesFileSystemChangeFilter;
+import org.autopair.monitor.spi.vcs.AddedChangesFileSystemChangeFilter;
+import org.autopair.monitor.spi.vcs.RecentChangesFileSystemChangeFilter;
 
 public class VcsFileSystemChangeFilterProvider implements Provider<FileSystemChangeFilter>
 {

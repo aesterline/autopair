@@ -1,4 +1,4 @@
-package org.autopair.monitor.vcs.git;
+package org.autopair.monitor.spi.vcs.git;
 
 import com.google.inject.Inject;
 import org.autopair.exec.Executable;

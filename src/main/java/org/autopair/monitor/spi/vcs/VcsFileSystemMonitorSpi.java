@@ -1,4 +1,4 @@
-package org.autopair.monitor.vcs;
+package org.autopair.monitor.spi.vcs;
 
 import java.util.List;
 

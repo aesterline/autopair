@@ -1,4 +1,4 @@
-package org.autopair.monitor.vcs.git;
+package org.autopair.monitor.spi.vcs.git;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.List;
 import com.google.inject.Inject;
 import org.autopair.monitor.FileSystemChange;
 import org.autopair.monitor.SystemChangeType;
-import org.autopair.monitor.vcs.Vcs;
+import org.autopair.monitor.spi.vcs.Vcs;
 
 public class GitVcs implements Vcs
 {

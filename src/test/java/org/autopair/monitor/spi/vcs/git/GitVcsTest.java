@@ -1,4 +1,4 @@
-package org.autopair.monitor.vcs.git;
+package org.autopair.monitor.spi.vcs.git;
 
 import java.util.Arrays;
 import java.util.List;
