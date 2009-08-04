@@ -9,7 +9,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 @Test
-public class MavenDeleteStrategyTest
+public class MavenCleanPhaseTest
 {
     private Remove remove;
     private MavenCleanPhase phase;
