@@ -1,5 +1,7 @@
 package org.autopair;
 
+import java.util.concurrent.ScheduledExecutorService;
+
 import com.google.inject.AbstractModule;
 import org.autopair.exec.Executable;
 import org.autopair.exec.Shell;
@@ -8,6 +10,7 @@ import org.autopair.exec.shell.ProcessFactory;
 import org.autopair.inject.Git;
 import org.autopair.inject.GitProvider;
 import org.autopair.inject.MavenProjectProvider;
+import org.autopair.inject.ScheduledExecutorServiceProvider;
 import org.autopair.inject.ShellProvider;
 import org.autopair.inject.VcsChangeFilter;
 import org.autopair.inject.VcsFileSystemChangeFilterProvider;
@@ -30,12 +33,13 @@ public class AutoPairModule extends AbstractModule
 
         bind(Executable.class).annotatedWith(Git.class).toProvider(GitProvider.class);
         bind(Vcs.class).to(GitVcs.class);
+        bind(FileSystemChangeFilter.class).annotatedWith(VcsChangeFilter.class).toProvider(VcsFileSystemChangeFilterProvider.class);
+        bind(FileSystemMonitorSpi.class).to(VcsFileSystemMonitorSpi.class);
 
         bind(Project.class).toProvider(MavenProjectProvider.class);
         bind(FileSystemChangeListener.class).to(ProjectFileSystemChangeListener.class);
 
-        bind(FileSystemChangeFilter.class).annotatedWith(VcsChangeFilter.class).toProvider(VcsFileSystemChangeFilterProvider.class);
-        bind(FileSystemMonitorSpi.class).to(VcsFileSystemMonitorSpi.class);
+        bind(ScheduledExecutorService.class).toProvider(ScheduledExecutorServiceProvider.class);
         bind(FileSystemMonitor.class).to(TimerFileSystemMonitor.class);
     }
 }
