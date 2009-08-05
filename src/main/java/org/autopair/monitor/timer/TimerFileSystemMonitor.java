@@ -1,6 +1,10 @@
 package org.autopair.monitor.timer;
 
+import java.util.List;
+
 import com.google.inject.Inject;
+import org.apache.commons.collections.CollectionUtils;
+import org.autopair.monitor.FileSystemChange;
 import org.autopair.monitor.FileSystemChangeListener;
 import org.autopair.monitor.FileSystemMonitor;
 import org.autopair.monitor.FileSystemMonitorSpi;
@@ -25,7 +29,11 @@ public class TimerFileSystemMonitor implements FileSystemMonitor
         {
             public void run()
             {
-                listener.changes(spi.checkForChanges());
+                List<FileSystemChange> systemChanges = spi.checkForChanges();
+                if(CollectionUtils.isNotEmpty(systemChanges))
+                {
+                    listener.changes(systemChanges);
+                }
             }
         });
     }
