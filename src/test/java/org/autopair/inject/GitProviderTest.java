@@ -3,6 +3,7 @@ package org.autopair.inject;
 import com.google.inject.Provider;
 import org.autopair.exec.Executable;
 import org.autopair.exec.ExecutableFactory;
+import org.autopair.exec.executable.ShellExecutableFactory;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -14,7 +15,7 @@ public class GitProviderTest
 {
     public void providerShouldCreateExecutableFromFactory()
     {
-        ExecutableFactory factory = mock(ExecutableFactory.class);
+        ExecutableFactory factory = mock(ShellExecutableFactory.class);
         Executable executable = mock(Executable.class);
         when(factory.create(anyString())).thenReturn(executable);
 

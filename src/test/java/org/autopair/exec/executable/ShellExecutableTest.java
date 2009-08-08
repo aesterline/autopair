@@ -1,5 +1,7 @@
-package org.autopair.exec;
+package org.autopair.exec.executable;
 
+import org.autopair.exec.Executable;
+import org.autopair.exec.Shell;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -8,14 +10,14 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 @Test
-public class DefaultExecutableTest
+public class ShellExecutableTest
 {
     private Shell shell;
 
     public void executeShouldExecuteCommandInShell()
     {
         String[] expected = {"git"};
-        new DefaultExecutable(shell, expected[0]).execute();
+        new ShellExecutable(shell, expected[0]).execute();
 
         verify(shell).execute(expected);
     }
@@ -26,7 +28,7 @@ public class DefaultExecutableTest
         String[] command = {"git"};
 
         when(shell.execute(command)).thenReturn(expected);
-        String results = new DefaultExecutable(shell, command).execute();
+        String results = new ShellExecutable(shell, command).execute();
 
         assertEquals(results, expected);
     }
@@ -35,7 +37,7 @@ public class DefaultExecutableTest
     {
         String[] expected = {"git"};
 
-        Executable git = new DefaultExecutable(shell, expected[0]);
+        Executable git = new ShellExecutable(shell, expected[0]);
         git.addArguments("status");
         git.execute();
 
@@ -46,7 +48,7 @@ public class DefaultExecutableTest
     {
         String[] expected = {"git", "status"};
 
-        Executable git = new DefaultExecutable(shell, expected[0]);
+        Executable git = new ShellExecutable(shell, expected[0]);
         Executable status = git.addArguments(expected[1]);
         status.execute();
 

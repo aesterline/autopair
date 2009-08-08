@@ -1,21 +1,24 @@
-package org.autopair.exec;
+package org.autopair.exec.executable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class DefaultExecutable implements Executable
+import org.autopair.exec.Executable;
+import org.autopair.exec.Shell;
+
+public class ShellExecutable implements Executable
 {
     private List<String> command;
     private Shell shell;
 
-    public DefaultExecutable(Shell shell, List<String> command)
+    public ShellExecutable(Shell shell, List<String> command)
     {
         this.shell = shell;
         this.command = command;
     }
 
-    public DefaultExecutable(Shell shell, String... command)
+    public ShellExecutable(Shell shell, String... command)
     {
         this(shell, Arrays.asList(command));
     }
@@ -25,7 +28,7 @@ public class DefaultExecutable implements Executable
         List<String> newCommand = new ArrayList<String>(command);
         newCommand.addAll(Arrays.asList(arguments));
 
-        return new DefaultExecutable(shell, newCommand);
+        return new ShellExecutable(shell, newCommand);
     }
 
     public String execute()

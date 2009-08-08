@@ -4,7 +4,9 @@ import java.util.concurrent.ScheduledExecutorService;
 
 import com.google.inject.AbstractModule;
 import org.autopair.exec.Executable;
+import org.autopair.exec.ExecutableFactory;
 import org.autopair.exec.Shell;
+import org.autopair.exec.executable.ShellExecutableFactory;
 import org.autopair.exec.shell.ProcessBuilderProcessFactory;
 import org.autopair.exec.shell.ProcessFactory;
 import org.autopair.inject.Git;
@@ -30,6 +32,7 @@ public class AutoPairModule extends AbstractModule
     {
         bind(ProcessFactory.class).to(ProcessBuilderProcessFactory.class);
         bind(Shell.class).toProvider(ShellProvider.class);
+        bind(ExecutableFactory.class).to(ShellExecutableFactory.class);
 
         bind(Executable.class).annotatedWith(Git.class).toProvider(GitProvider.class);
         bind(Vcs.class).to(GitVcs.class);
