@@ -10,6 +10,7 @@ public class ProcessBuilderProcessFactory implements ProcessFactory
         {
             ProcessBuilder builder = new ProcessBuilder(command);
             builder.redirectErrorStream(true);
+            builder.environment().putAll(System.getenv());
 
             return builder.start();
         }
