@@ -1,4 +1,4 @@
-package org.autopair.monitor.spi.vcs.git;
+package org.autopair.commands;
 
 import org.autopair.exec.Executable;
 import static org.mockito.Mockito.mock;

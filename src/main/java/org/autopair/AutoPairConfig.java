@@ -6,4 +6,9 @@ public class AutoPairConfig
     {
         return true;
     }
+
+    public String getPathForGit()
+    {
+        return "git";
+    }
 }

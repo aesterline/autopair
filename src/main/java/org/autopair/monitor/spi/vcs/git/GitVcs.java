@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.inject.Inject;
+import org.autopair.commands.GitStatus;
 import org.autopair.monitor.FileSystemChange;
 import org.autopair.monitor.SystemChangeType;
 import org.autopair.monitor.spi.vcs.Vcs;

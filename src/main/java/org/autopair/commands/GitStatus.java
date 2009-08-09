@@ -1,8 +1,8 @@
-package org.autopair.monitor.spi.vcs.git;
+package org.autopair.commands;
 
 import com.google.inject.Inject;
 import org.autopair.exec.Executable;
-import org.autopair.inject.Git;
+import org.autopair.exec.annotations.Git;
 
 public class GitStatus
 {

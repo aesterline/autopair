@@ -1,4 +1,4 @@
-package org.autopair.inject;
+package org.autopair.exec.annotations;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;

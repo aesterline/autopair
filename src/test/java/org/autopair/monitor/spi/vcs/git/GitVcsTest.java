@@ -3,6 +3,7 @@ package org.autopair.monitor.spi.vcs.git;
 import java.util.Arrays;
 import java.util.List;
 
+import org.autopair.commands.GitStatus;
 import org.autopair.monitor.FileSystemChange;
 import org.autopair.monitor.SystemChangeType;
 import static org.mockito.Mockito.mock;
