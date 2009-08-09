@@ -1,10 +1,12 @@
 package org.autopair.exec.shell;
 
 import org.apache.commons.io.IOUtils;
+import org.autopair.exec.UnableToExecuteCommandException;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.fail;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -34,6 +36,21 @@ public class ProcessShellTest
         String results = shell.execute(COMMAND);
 
         assertEquals(results, expected);
+    }
+
+    public void shouldThrowExceptionWhenCommandCannotBeExecuted()
+    {
+        when(process.getInputStream()).thenThrow(new RuntimeException());
+
+        try
+        {
+            shell.execute(COMMAND);
+            fail("Exception should be thrown");
+        }
+        catch(UnableToExecuteCommandException e)
+        {
+            // we expect this to happen
+        }
     }
 
     @BeforeMethod

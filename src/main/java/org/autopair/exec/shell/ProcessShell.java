@@ -1,10 +1,9 @@
 package org.autopair.exec.shell;
 
-import java.io.IOException;
-
 import com.google.inject.Inject;
 import org.apache.commons.io.IOUtils;
 import org.autopair.exec.Shell;
+import org.autopair.exec.UnableToExecuteCommandException;
 
 public class ProcessShell implements Shell
 {
@@ -16,16 +15,16 @@ public class ProcessShell implements Shell
         this.factory = factory;
     }
 
-    public String execute(String... command)
+    public String execute(String... command) throws UnableToExecuteCommandException
     {
         try
         {
             Process process = factory.create(command);
             return IOUtils.toString(process.getInputStream());
         }
-        catch(IOException e)
+        catch(Exception e)
         {
-            throw new RuntimeException(e);
+            throw new UnableToExecuteCommandException(e);
         }
     }
 }
