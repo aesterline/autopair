@@ -2,6 +2,7 @@ package org.autopair.inject.commands;
 
 import com.google.inject.Provider;
 import org.autopair.AutoPairConfig;
+import org.autopair.commands.Git;
 import org.autopair.commands.UnknownCommandException;
 import org.autopair.exec.Executable;
 import org.autopair.exec.ExecutableFactory;
@@ -11,7 +12,6 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.testng.Assert.assertSame;
 import static org.testng.Assert.fail;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -21,7 +21,7 @@ public class GitProviderTest
 {
     private ExecutableFactory factory;
     private Executable executable;
-    private Provider<Executable> provider;
+    private Provider<Git> provider;
     private AutoPairConfig config;
 
     public void shouldAskConfigForValue()
@@ -61,11 +61,6 @@ public class GitProviderTest
         {
             // We expect this to happen.
         }
-    }
-
-    public void providerShouldCreateExecutableFromFactory()
-    {
-        assertSame(provider.get(), executable);
     }
 
     @BeforeMethod

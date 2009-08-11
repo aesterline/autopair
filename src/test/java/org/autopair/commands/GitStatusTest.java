@@ -1,6 +1,5 @@
 package org.autopair.commands;
 
-import org.autopair.exec.Executable;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -11,32 +10,30 @@ import org.testng.annotations.Test;
 @Test
 public class GitStatusTest
 {
-    private Executable gitExe;
+    private Git git;
+    private GitStatus status;
 
-    public void shouldBuildStatusExecutableAtConstruction()
+    public void shouldExecuteStatus()
     {
-        new GitStatus(gitExe);
+        status.status();
 
-        verify(gitExe).addArguments(GitStatus.ARGUMENTS);
+        verify(git).execute(GitStatus.ARGUMENTS);
     }
 
-    public void statusShouldExecuteStatusExecutable()
+    public void shouldReturnResultsFromStatus()
     {
-        String expected = "result";
+        String expectedResult = "results";
+        when(git.execute(GitStatus.ARGUMENTS)).thenReturn(expectedResult);
 
-        Executable statusExecutable = mock(Executable.class);
-        when(gitExe.addArguments(GitStatus.ARGUMENTS)).thenReturn(statusExecutable);
-        when(statusExecutable.execute()).thenReturn(expected);
+        String result = status.status();
 
-        String results = new GitStatus(gitExe).status();
-
-        verify(statusExecutable).execute();
-        assertEquals(results, expected);
+        assertEquals(result, expectedResult);
     }
 
     @BeforeMethod
     protected void setUp() throws Exception
     {
-        gitExe = mock(Executable.class);
+        git = mock(Git.class);
+        status = new GitStatus(git);
     }
 }

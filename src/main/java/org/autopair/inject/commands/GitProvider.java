@@ -3,12 +3,13 @@ package org.autopair.inject.commands;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import org.autopair.AutoPairConfig;
+import org.autopair.commands.Git;
 import org.autopair.commands.UnknownCommandException;
 import org.autopair.exec.Executable;
 import org.autopair.exec.ExecutableFactory;
 import org.autopair.exec.UnableToExecuteCommandException;
 
-public class GitProvider implements Provider<Executable>
+public class GitProvider implements Provider<Git>
 {
     public static final String GIT_CONFIG_KEY = "exec.git";
     public static final String DEFAULT_GIT_PATH = "git";
@@ -25,13 +26,13 @@ public class GitProvider implements Provider<Executable>
         this.factory = factory;
     }
 
-    public Executable get()
+    public Git get()
     {
         String gitPath = config.getValue(GIT_CONFIG_KEY, DEFAULT_GIT_PATH);
         Executable git = factory.create(gitPath);
         test(git, gitPath);
 
-        return git;
+        return new Git(git);
     }
 
     private void test(Executable git, String gitPath)

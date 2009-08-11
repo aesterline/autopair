@@ -1,23 +1,20 @@
 package org.autopair.commands;
 
 import com.google.inject.Inject;
-import org.autopair.exec.Executable;
-import org.autopair.exec.annotations.Git;
 
 public class GitStatus
 {
     public static final String[] ARGUMENTS = {"status", "--untracked-files=all"};
-
-    private Executable status;
+    private Git git;
 
     @Inject
-    public GitStatus(@Git Executable gitExe)
+    public GitStatus(Git git)
     {
-        status = gitExe.addArguments(ARGUMENTS);
+        this.git = git;
     }
 
     public String status()
     {
-        return status.execute();
+        return git.execute(ARGUMENTS);
     }
 }
