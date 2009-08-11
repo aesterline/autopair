@@ -5,4 +5,6 @@ public interface Executable
     Executable addArguments(String... arguments);
 
     String execute();
+
+    String execute(String... arguments);
 }

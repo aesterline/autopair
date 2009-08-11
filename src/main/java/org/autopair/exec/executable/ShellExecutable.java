@@ -36,4 +36,9 @@ public class ShellExecutable implements Executable
         String[] executableCommand = command.toArray(new String[command.size()]);
         return shell.execute(executableCommand);
     }
+
+    public String execute(String... arguments)
+    {
+        return addArguments(arguments).execute();
+    }
 }

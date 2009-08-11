@@ -55,6 +55,38 @@ public class ShellExecutableTest
         verify(shell).execute(expected);
     }
 
+    public void executeWithArgumentsShouldReturnExecuteShellWithCombinedCommands()
+    {
+        String[] expected = {"git", "status"};
+
+        Executable git = new ShellExecutable(shell, expected[0]);
+        git.execute(expected[1]);
+
+        verify(shell).execute(expected);
+    }
+
+    public void executeWithArgumetsShouldNotManipulateExistingExecutable()
+    {
+        String[] expected = {"git"};
+
+        Executable git = new ShellExecutable(shell, expected[0]);
+        git.execute("status");
+        git.execute();
+
+        verify(shell).execute(expected);
+    }
+
+    public void executeWithArgumentShouldReturnResultsFromShell()
+    {
+        String expected = "results";
+        String[] command = {"git", "status"};
+
+        when(shell.execute(command)).thenReturn(expected);
+        String results = new ShellExecutable(shell, command[0]).execute(command[1]);
+
+        assertEquals(results, expected);
+    }
+
     @BeforeMethod
     protected void setUp() throws Exception
     {

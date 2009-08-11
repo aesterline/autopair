@@ -12,8 +12,11 @@ public class AutoPairConfigTest
         assertTrue(new AutoPairConfig().isLogging());
     }
 
-    public void pathForGitShouldBeShortNameByDefault()
+    public void unknownKeyShouldReturnDefault()
     {
-        assertEquals(new AutoPairConfig().getPathForGit(), "git");
+        String defaultValue = "default";
+        String value = new AutoPairConfig().getValue("unknownKey", defaultValue);
+
+        assertEquals(value, defaultValue);
     }
 }

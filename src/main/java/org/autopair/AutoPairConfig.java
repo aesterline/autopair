@@ -7,8 +7,8 @@ public class AutoPairConfig
         return true;
     }
 
-    public String getPathForGit()
+    public String getValue(String key, String defaultValue)
     {
-        return "git";
+        return defaultValue;
     }
 }
