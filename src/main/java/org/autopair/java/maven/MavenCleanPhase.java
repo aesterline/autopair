@@ -18,23 +18,6 @@ public class MavenCleanPhase implements Phase
     {
         this.remove = remove;
     }
-//    private DeleteStrategy delegatee;
-//
-//    public MavenCleanPhase(DeleteStrategy delegatee)
-//    {
-//        this.delegatee = delegatee;
-//    }
-//
-//    public void delete(File file)
-//    {
-//        String filename = file.getAbsolutePath();
-//
-//        filename = filename.replace("src/main/java", "target/classes");
-//        filename = filename.replace("src/test/java", "target/test-classes");
-//        filename = filename.replace(".java", ".class");
-//
-//        delegatee.delete(new File(filename));
-//    }
 
     public void execute(List<File> updates)
     {
